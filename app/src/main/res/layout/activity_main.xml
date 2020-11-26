@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight=".3"
-        android:background="@drawable/border">>
+        android:background="@drawable/border">
 
         <TextView
             android:id="@+id/Urheilu_otsikko"
@@ -22,17 +22,39 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
             android:layout_marginTop="16dp"
-            android:text="@string/Urheilu" />
+            android:text="@string/Urheilu"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="300dp" />
 
         <Switch
-            android:id="@+id/U_switch"
+            android:id="@+id/Sport_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="64dp"
-            android:text="@string/Uswitch" />
+            android:checked="false"
+            android:onClick="sportTimeClicked"
+            android:saveEnabled="false"
+            android:text="@string/Uswitch"
+            tools:checked="false" />
+
+        <TextView
+            android:id="@+id/sportTV"
+            android:layout_width="133dp"
+            android:layout_height="36dp"
+            android:layout_below="@+id/Sport_switch"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginLeft="34dp"
+            android:layout_marginTop="23dp"
+            android:layout_marginBottom="94dp"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -40,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight=".3"
-        android:background="@drawable/border">>
+        android:background="@drawable/border">
 
         <TextView
             android:id="@+id/Ruutu_otsikko"
@@ -50,16 +72,21 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
             android:layout_marginTop="16dp"
-            android:text="@string/Ruutuaika" />
+            android:text="@string/Ruutuaika"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="300dp" />
 
         <Switch
-            android:id="@+id/R_switch"
+            android:id="@+id/Screen_switch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="64dp"
+            android:onClick="screenTimeClicked"
             android:text="@string/Rswitch" />
 
         <Button
@@ -70,66 +97,34 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
             android:layout_marginTop="160dp"
-            android:text="@string/Historia" />
+            android:text="@string/Historia"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="32dp" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <TextView
+            android:id="@+id/screenTV"
+            android:layout_width="122dp"
+            android:layout_height="35dp"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginStart="144dp"
-            android:layout_marginTop="75dp"
-            android:layout_marginEnd="174dp"
-            android:onClick="debugSave"
-            android:text="Debug" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginStart="142dp"
-            android:layout_marginTop="13dp"
-            android:layout_marginEnd="176dp"
-            android:onClick="saveData"
-            android:text="Save" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="146dp"
-            android:layout_marginEnd="172dp"
-            android:layout_marginBottom="73dp"
-            android:onClick="loadData"
-            android:text="Load" />
-
-        <Button
-            android:id="@+id/button4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginStart="149dp"
-            android:layout_marginEnd="169dp"
-            android:layout_marginBottom="15dp"
-            android:onClick="clearData"
-            android:text="Clear" />
+            android:layout_marginStart="34dp"
+            android:layout_marginLeft="34dp"
+            android:layout_marginTop="108dp"
+            android:layout_marginEnd="255dp"
+            android:layout_marginRight="255dp"
+            android:layout_marginBottom="100dp"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/Playout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight=".33"
+        android:layout_weight=".3"
         android:background="@drawable/border">
 
         <TextView
@@ -140,7 +135,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
             android:layout_marginTop="16dp"
-            android:text="@string/Paino" />
+            android:text="@string/Paino"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="300dp" />
 
         <Button
             android:id="@+id/Pp_button"
@@ -150,7 +147,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
             android:layout_marginTop="32dp"
-            android:text="@string/PpButton" />
+            android:text="@string/PpButton"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="32dp" />
 
         <Button
             android:id="@+id/PH_button"
@@ -160,7 +159,9 @@
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
             android:layout_marginTop="128dp"
-            android:text="@string/Historia" />
+            android:text="@string/Historia"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="32dp" />
     </RelativeLayout>
 
 </LinearLayout>
