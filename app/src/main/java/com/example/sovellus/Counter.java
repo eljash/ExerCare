@@ -32,6 +32,7 @@ public class Counter {
     }
 
     public void run(TextView tv) {
+        timer = new Timer();
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
