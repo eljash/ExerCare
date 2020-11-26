@@ -80,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
     public void sportTimeClicked(View v) {
         TextView sportTV = findViewById(R.id.sportTV);
         if (eRunning == false) {
+            //eCounter.run(sportTV);
+            eCounter = new Counter(0,120,findViewById(R.id.sportGauge));
             eCounter.run(sportTV);
             eRunning = true;
         } else {
