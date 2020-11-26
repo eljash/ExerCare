@@ -37,10 +37,12 @@ public class MainActivity extends AppCompatActivity {
         String dateDe;
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int month = Calendar.getInstance().get(Calendar.MONTH);
+        /**
         for(int i = 0; i < 2; i++){
             dateDe = year+"/"+month+"/"+(10+i++);
             this.mega.insertData("2020",Integer.toString(i),i+3,69+i,i*10,69*i,true);
         }
+         */
         this.mega.insertData("1995","12",15,69,420,69,true);
     }
 
