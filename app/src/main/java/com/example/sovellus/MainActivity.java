@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
+        /** TERVE */
         super.onStart();
         Log.d(LOGTAG,"onStart()");
         mega.loadData("2020","1");
