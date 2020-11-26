@@ -5,12 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     private Mega mega;
     private static final String LOGTAG = "MainActivity.java";
+    private boolean eRunning = false;
+    private boolean sRunning = false;
+    private Counter eCounter = new Counter();
+    private Counter sCounter = new Counter();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +26,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
-        ergrgrge
         super.onStart();
         Log.d(LOGTAG,"onStart()");
         mega.loadData("2020","1");
@@ -69,5 +73,27 @@ public class MainActivity extends AppCompatActivity {
             Log.d(LOGTAG,"Object found and it has weight of: "+perse.returnWeight());
         }
          */
+    }
+
+    public void sportTimeClicked(View v) {
+        TextView sportTV = findViewById(R.id.sportTV);
+        if (eRunning == false) {
+            eCounter.run(sportTV);
+            eRunning = true;
+        } else {
+            eCounter.stop(sportTV);
+            eRunning = false;
+        }
+    }
+
+    public void screenTimeClicked(View v) {
+        TextView screenTV = findViewById(R.id.screenTV);
+        if (sRunning == false) {
+            sCounter.run(screenTV);
+            sRunning = true;
+        } else {
+            sCounter.stop(screenTV);
+            sRunning = false;
+        }
     }
 }
