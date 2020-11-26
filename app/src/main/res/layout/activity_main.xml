@@ -118,6 +118,57 @@
             android:layout_marginRight="255dp"
             android:layout_marginBottom="100dp"
             android:textSize="18sp" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="175dp"
+            android:layout_marginLeft="175dp"
+            android:layout_marginTop="96dp"
+            android:layout_marginEnd="143dp"
+            android:layout_marginRight="143dp"
+            android:onClick="debugSave"
+            android:text="Debug" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="174dp"
+            android:layout_marginLeft="174dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="144dp"
+            android:layout_marginRight="144dp"
+            android:onClick="saveData"
+            android:text="save" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginStart="172dp"
+            android:layout_marginLeft="172dp"
+            android:layout_marginTop="156dp"
+            android:layout_marginEnd="146dp"
+            android:layout_marginRight="146dp"
+            android:onClick="loadData"
+            android:text="load" />
     </RelativeLayout>
 
     <RelativeLayout
