@@ -214,6 +214,22 @@ public class Mega {
         dataEditor.commit();
     }
 
+    /** TALLENNA TIETTY LISTA TIETTYYN DATA PAKETTIIN */
+    private void savePackage(String v, String m, ArrayList<dataOlio> dataList){
+        Log.d(LOGTAG,"savePackage()");
+        v = customDigit(v,4);
+        m = customDigit(m, 2);
+        String saveName = "DataY"+v+"M"+m;
+        SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor dataEditor = dataSaving.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(dataList);
+        Log.d(LOGTAG,"JSON format:");
+        Log.d(LOGTAG,json);
+        dataEditor.putString(saveName, json);
+        dataEditor.commit();
+    }
+
     /** JSON TALLENNUKSEN AVAAMINEN JA MUUTTAMINEN ARRAYLISTIKSI */
     public void loadData(){
         Log.d(LOGTAG,"loadData()");
@@ -407,11 +423,13 @@ public class Mega {
         }
 
         if(dayFromList(d,dataList) != null){
+            Log.d(LOGTAG,"inserting values to arraylist");
             insertDay = dayFromList(d,dataList);
             insertDay.insertSport(sport);
             insertDay.insertScreen(screen);
             insertDay.insertWeight(weight);
             insertDay.insertWeightBoolean(day);
+            savePackage(v,m,dataList);
         }
     }
 }
