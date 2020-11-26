@@ -5,11 +5,14 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import pl.pawelkleczkowski.customgauge.CustomGauge;
+
 public class Counter {
     private int seconds;
     private int minutes;
     private int hours;
     private Timer timer;
+    private int max;
 
     public Counter(int seconds) {
         this.seconds = seconds;
@@ -31,22 +34,19 @@ public class Counter {
         this.seconds = seconds;
     }
 
-    public void run(TextView tv) {
+    public void run(CustomGauge tv) {
         timer = new Timer();
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 seconds++;
-                tv.setText(Integer.toString(seconds));
+                tv.setValue(seconds);
             }
         }, 0, 1000);
     }
 
-    public void stop(TextView tv) {
+    public void stop(CustomGauge tv) {
         this.timer.cancel();
-        String value = tv.getText().toString();
-        int intValue = Integer.parseInt(value);
-        this.seconds = intValue;
-        tv.setText(Integer.toString(this.seconds));
+        tv.setValue(this.seconds);
     }
 }

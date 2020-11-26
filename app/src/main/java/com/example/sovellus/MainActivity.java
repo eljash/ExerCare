@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
+import pl.pawelkleczkowski.customgauge.CustomGauge;
+
 public class MainActivity extends AppCompatActivity {
     private Mega mega;
     private static final String LOGTAG = "MainActivity.java";
@@ -16,12 +18,15 @@ public class MainActivity extends AppCompatActivity {
     private boolean sRunning = false;
     private Counter eCounter = new Counter();
     private Counter sCounter = new Counter();
+    private User user = new User("user");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.mega = new Mega(this);
+        CustomGauge sportGauge = findViewById(R.id.sportTV);
+        sportGauge.setEndValue(user.getTimeGoal());
     }
 
     @Override
@@ -78,15 +83,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void sportTimeClicked(View v) {
-        TextView sportTV = findViewById(R.id.sportTV);
+        CustomGauge sportGauge = findViewById(R.id.sportTV);
         if (eRunning == false) {
-            eCounter.run(sportTV);
+            eCounter.run(sportGauge);
             eRunning = true;
         } else {
-            eCounter.stop(sportTV);
+            eCounter.stop(sportGauge);
             eRunning = false;
         }
     }
+
+    /*
 
     public void screenTimeClicked(View v) {
         TextView screenTV = findViewById(R.id.screenTV);
@@ -97,5 +104,5 @@ public class MainActivity extends AppCompatActivity {
             sCounter.stop(screenTV);
             sRunning = false;
         }
-    }
+    } */
 }
