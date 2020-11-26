@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onStart(){
-        fkpefåe
+        ergrgrge
         super.onStart();
         Log.d(LOGTAG,"onStart()");
         mega.loadData("2020","1");
