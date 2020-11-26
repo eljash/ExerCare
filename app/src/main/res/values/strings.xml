@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Eta terveys</string>
+    <string name="Urheilu">Urheilu</string>
+    <string name="Ruutuaika">Ruutuaika</string>
+    <string name="Paino">Paino</string>
+    <string name="Uswitch">Urheilemassa</string>
+    <string name="Rswitch">Ruudulla</string>
+    <string name="PpButton">Päivän paino</string>
+    <string name="Historia">Historia</string>
+</resources>

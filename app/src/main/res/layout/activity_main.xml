@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <RelativeLayout
+        android:id="@+id/Ulayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:background="@drawable/border">>
+
+        <TextView
+            android:id="@+id/Urheilu_otsikko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/Urheilu" />
+
+        <Switch
+            android:id="@+id/U_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:text="@string/Uswitch" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/Rlayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".3"
+        android:background="@drawable/border">>
+
+        <TextView
+            android:id="@+id/Ruutu_otsikko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/Ruutuaika" />
+
+        <Switch
+            android:id="@+id/R_switch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="64dp"
+            android:text="@string/Rswitch" />
+
+        <Button
+            android:id="@+id/RH_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="160dp"
+            android:text="@string/Historia" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="144dp"
+            android:layout_marginTop="75dp"
+            android:layout_marginEnd="174dp"
+            android:onClick="debugSave"
+            android:text="Debug" />
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="142dp"
+            android:layout_marginTop="13dp"
+            android:layout_marginEnd="176dp"
+            android:onClick="saveData"
+            android:text="Save" />
+
+        <Button
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="146dp"
+            android:layout_marginEnd="172dp"
+            android:layout_marginBottom="73dp"
+            android:onClick="loadData"
+            android:text="Load" />
+
+        <Button
+            android:id="@+id/button4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="149dp"
+            android:layout_marginEnd="169dp"
+            android:layout_marginBottom="15dp"
+            android:onClick="clearData"
+            android:text="Clear" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/Playout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight=".33"
+        android:background="@drawable/border">
+
+        <TextView
+            android:id="@+id/Paino_otsikko"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="300dp"
+            android:layout_marginTop="16dp"
+            android:text="@string/Paino" />
+
+        <Button
+            android:id="@+id/Pp_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:text="@string/PpButton" />
+
+        <Button
+            android:id="@+id/PH_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="128dp"
+            android:text="@string/Historia" />
+    </RelativeLayout>
+
+</LinearLayout>
