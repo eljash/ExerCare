@@ -69,6 +69,7 @@ public class Mega {
         }
 
         thisMonthList = getSavedData(year,month);
+        currentDate = SM.createPackageName(year,month);
         Log.d(LOGTAG,"this months data package opened");
 
         today = dayFromList(day,thisMonthList);
@@ -85,6 +86,14 @@ public class Mega {
         } else {
             Log.d(LOGTAG, "this day has data");
         }
+    }
+
+    /** PALAUTTAA TÄMÄN PÄIVÄN dataOlio OLION */
+    public dataOlio todayObject(){
+        if(today == null){
+            todayData();
+        }
+        return today;
     }
 
     /** METODI DATAN TALLENTAMISEEN JSON MUOTOON */
@@ -110,6 +119,19 @@ public class Mega {
         Log.d(LOGTAG,"JSON format:");
         Log.d(LOGTAG,json);
         dataEditor.putString(currentSavePackage, json);
+        dataEditor.apply();
+    }
+
+    /** TALLENTAA NYKYISEN PÄIVÄN */
+    public void saveToday(){
+        Log.d(LOGTAG,"saveToday()");
+        SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor dataEditor = dataSaving.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(thisMonthList);
+        Log.d(LOGTAG,"Json format:");
+        Log.d(LOGTAG,json);
+        dataEditor.putString(currentDate, json);
         dataEditor.apply();
     }
 
@@ -240,12 +262,14 @@ public class Mega {
 
     /** AUKI OLEVAN LISTAN TYHJETÄJÄ */
     public void clearData(){
-        SaveList.clear();
-        saveData();
+        SharedPreferences SPref = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor SprefEdit = SPref.edit();
+        SprefEdit.clear();
+        SprefEdit.apply();
     }
 
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
-    public void insertData(String v, String m, int d, double sport, double screen, double weight, boolean day){
+    public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
         Log.d(LOGTAG,"insertData()");
         boolean packageFound = false;
         ArrayList<dataOlio> dataList;

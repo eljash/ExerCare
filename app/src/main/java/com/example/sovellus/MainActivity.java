@@ -13,9 +13,11 @@ public class MainActivity extends AppCompatActivity {
     private static final String LOGTAG = "MainActivity.java";
     private boolean eRunning = false;
     private boolean sRunning = false;
-    private Counter eCounter = new Counter();
+    private Counter eCounter;
     private Counter sCounter = new Counter();
     private User user = new User("user");
+
+    private dataOlio todayObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(LOGTAG,"onStart()");
 
+        mega.todayData();
+        todayObject = mega.todayObject();
+        eCounter = new Counter(todayObject.sportSec());
+
     }
 
     public void debugSave(View v){
@@ -42,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void loadData(View v){
-
+        this.mega.clearData();
     }
 
     public void sportTimeClicked(View v) {
@@ -68,4 +74,13 @@ public class MainActivity extends AppCompatActivity {
             sRunning = false;
         }
     } */
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.d(LOGTAG,"onStop()");
+        todayObject.insertSport(eCounter.getCurrent());
+        mega.saveToday();
+    }
+
 }

@@ -22,8 +22,8 @@ public class dataOlio{
     private String currentDate;
     private String key;
     private int day;
-    private double sportTime;
-    private double screenTime;
+    private int sportTime;
+    private int screenTime;
     private double weight;
     private boolean dayWeight;
 
@@ -41,7 +41,7 @@ public class dataOlio{
     }
 
     /** LUOKAN PARAMETRINEN KONSTRUKTORI */
-    public dataOlio(String k, int d, double sport, double screen, double weight, boolean day){
+    public dataOlio(String k, int d, int sport, int screen, double weight, boolean day){
         this.key = k;
         this.day = d;
         this.sportTime = sport;
@@ -51,18 +51,28 @@ public class dataOlio{
         this.creationDate = new Date();
     }
 
+    /** PALAUTTAA URHEILUAJAN SEKUNTEISSA */
+    public int sportSec(){
+        return this.sportTime;
+    }
+
+    /** PALAUTTAA RUUTUAJAN SEKUNTEISSA */
+    public int screenSec(){
+        return this.screenTime;
+    }
+
     /** PÄIVÄÄ MUUTTAVA METODI */
     public void changeDay(int d){
         this.day = d;
     }
 
     /** PÄIVÄN LIIKUNTA AIKA */
-    public void insertSport(double time){
+    public void insertSport(int time){
         this.sportTime = time;
     }
 
     /** PÄIVÄN RUUTU AIKA */
-    public void insertScreen(double time){
+    public void insertScreen(int time){
         this.screenTime = time;
     }
 
