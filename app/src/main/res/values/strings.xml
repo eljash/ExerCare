@@ -7,4 +7,9 @@
     <string name="Rswitch">Ruudulla</string>
     <string name="PpButton">Päivän paino</string>
     <string name="Historia">Historia</string>
+    <string name="goals">Tavoitteet</string>
+    <string name="weight_goal">Paino tavoite:</string>
+    <string name="sport_goal">Urheilu tavoite:</string>
+    <string name="screen_goal">Ruutu tavoite:</string>
+    <string name="change">vaihda</string>
 </resources>

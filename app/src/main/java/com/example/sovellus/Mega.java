@@ -29,14 +29,18 @@ import com.google.gson.reflect.TypeToken;
 
 
 public class Mega {
-    private String currentDate;
-    private ArrayList<dataOlio> SaveList = new ArrayList<>();
-    private ArrayList<dataOlio> thisMonthList = new ArrayList<>();
-    private String currentSavePackage = null;
+
     private Context activityContext;
+
+    private ArrayList<dataOlio> SaveList = new ArrayList<>();
+
+    private ArrayList<dataOlio> thisMonthList = new ArrayList<>();
     private dataOlio today;
+    private String currentDate;
+
+    private String currentSavePackage = null;
     private dataOlio dayToHandle;
-    private int x = 1;
+
     private SuperMetodit SM = new SuperMetodit();
 
     private static final String LOGTAG = "MEGA.JAVA";

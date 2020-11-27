@@ -2,6 +2,7 @@ package com.example.sovellus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -60,6 +61,11 @@ public class MainActivity extends AppCompatActivity {
             eCounter.stop(sportGauge);
             eRunning = false;
         }
+    }
+
+    public void goProfile(View v){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
     }
 
     /*
