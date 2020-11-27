@@ -13,10 +13,14 @@ public class Counter {
     private int hours;
     private Timer timer;
     private int max;
+    private CustomGauge tv;
+    private boolean firstRun = true;
 
-    public Counter(int seconds) {
+    public Counter(int seconds,CustomGauge CG) {
         this.seconds = seconds;
         this.timer = new Timer();
+        this.tv = CG;
+        this.tv.setValue(this.seconds);
     }
 
     public Counter() {
@@ -34,18 +38,23 @@ public class Counter {
         this.seconds = seconds;
     }
 
-    public void run(CustomGauge tv) {
+    public void run() {
+        firstRun = true;
         timer = new Timer();
         this.timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                seconds++;
-                tv.setValue(seconds);
+                if(firstRun){
+                    firstRun = false;
+                } else {
+                    seconds++;
+                    tv.setValue(seconds);
+                }
             }
         }, 0, 1000);
     }
 
-    public void stop(CustomGauge tv) {
+    public void stop() {
         this.timer.cancel();
         tv.setValue(this.seconds);
     }

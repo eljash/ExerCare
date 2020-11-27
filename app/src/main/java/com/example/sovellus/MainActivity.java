@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Switch;
 
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
@@ -15,8 +16,11 @@ public class MainActivity extends AppCompatActivity {
     private boolean eRunning = false;
     private boolean sRunning = false;
     private Counter eCounter;
-    private Counter sCounter = new Counter();
+    private Counter sCounter;
     private User user = new User("user");
+
+    private Switch sportSwitch;
+    private Switch screenSwitch;
 
     private dataOlio todayObject;
 
@@ -26,7 +30,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.mega = new Mega(this);
         CustomGauge sportGauge = findViewById(R.id.sportTV);
-        sportGauge.setEndValue(user.getTimeGoal());
+        CustomGauge screenGauge = findViewById(R.id.screenTV);
+        sportGauge.setEndValue(user.sportTimeGoal());
+        screenGauge.setEndValue(user.screenTimeGoal());
     }
 
     @Override
@@ -36,29 +42,26 @@ public class MainActivity extends AppCompatActivity {
 
         mega.todayData();
         todayObject = mega.todayObject();
-        eCounter = new Counter(todayObject.sportSec());
+        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
+        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
 
-    }
+        sportSwitch = findViewById(R.id.Sport_switch);
+        screenSwitch = findViewById(R.id.Screen_switch);
 
-    public void debugSave(View v){
-        mega.todayData();
-    }
-
-    public void saveData(View v){
-        this.mega.saveData();
-    }
-
-    public void loadData(View v){
-        this.mega.clearData();
     }
 
     public void sportTimeClicked(View v) {
         CustomGauge sportGauge = findViewById(R.id.sportTV);
         if (!eRunning) {
-            eCounter.run(sportGauge);
+            eCounter.run();
             eRunning = true;
+            if(sRunning){
+                sCounter.stop();
+                sRunning = false;
+                screenSwitch.setChecked(false);
+            }
         } else {
-            eCounter.stop(sportGauge);
+            eCounter.stop();
             eRunning = false;
         }
     }
@@ -66,28 +69,34 @@ public class MainActivity extends AppCompatActivity {
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("urheilu", eCounter.getCurrent());
+        intent.putExtra("ruutu",sCounter.getCurrent());
         intent.putExtra("paino",todayObject.returnWeight());
         startActivity(intent);
     }
 
-    /*
-
     public void screenTimeClicked(View v) {
-        TextView screenTV = findViewById(R.id.screenTV);
-        if (sRunning == false) {
-            sCounter.run(screenTV);
+        CustomGauge screenGauge = findViewById(R.id.screenTV);
+        if (!sRunning) {
+            sCounter.run();
             sRunning = true;
+            if(eRunning){
+                eCounter.stop();
+                eRunning = false;
+                sportSwitch.setChecked(false);
+            }
         } else {
-            sCounter.stop(screenTV);
+            sCounter.stop();
             sRunning = false;
         }
-    } */
+    }
 
     @Override
     protected void onStop(){
         super.onStop();
         Log.d(LOGTAG,"onStop()");
         todayObject.insertSport(eCounter.getCurrent());
+        todayObject.insertScreen(sCounter.getCurrent());
+        Log.d(LOGTAG,"Counter values (sport, screen) "+eCounter.getCurrent()+", "+sCounter.getCurrent());
         mega.saveToday();
     }
 

@@ -36,8 +36,8 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         Intent intent = getIntent();
         this.weight = String.valueOf(intent.getDoubleExtra("paino",0));
+        this.screen = Integer.toString(intent.getIntExtra("ruutu",0));
         this.sport = Integer.toString(intent.getIntExtra("urheilu",0));
-        this.screen = "0";
     }
 
     @Override

@@ -51,8 +51,4 @@ public class User {
     public int month(){return this.month;}
     public int day(){return this.day;}
     public Date date(){return this.creationDate;}
-
-    public int getTimeGoal() {
-        return this.sportTimeGoal;
-    }
 }

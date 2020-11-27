@@ -117,74 +117,34 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="32dp" />
 
-        <TextView
+        <pl.pawelkleczkowski.customgauge.CustomGauge
             android:id="@+id/screenTV"
-            android:layout_width="122dp"
-            android:layout_height="35dp"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentBottom="true"
-            android:layout_marginStart="34dp"
-            android:layout_marginLeft="34dp"
-            android:layout_marginTop="108dp"
-            android:layout_marginEnd="255dp"
-            android:layout_marginRight="255dp"
-            android:layout_marginBottom="100dp"
-            android:textSize="18sp" />
+            android:layout_marginStart="184dp"
+            android:layout_marginLeft="184dp"
+            android:layout_marginTop="48dp"
+            android:layout_marginEnd="27dp"
+            android:layout_marginRight="27dp"
+            android:layout_marginBottom="-4dp"
+            android:paddingLeft="20dp"
+            android:paddingTop="20dp"
+            android:paddingRight="20dp"
+            android:paddingBottom="20dp"
+            app:gaugeEndValue="1000"
+            app:gaugePointSize="6"
+            app:gaugeStartAngle="135"
+            app:gaugeStartValue="0"
+            app:gaugeStrokeCap="ROUND"
+            app:gaugeStrokeWidth="10dp"
+            app:gaugeSweepAngle="270" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="175dp"
-            android:layout_marginLeft="175dp"
-            android:layout_marginTop="96dp"
-            android:layout_marginEnd="143dp"
-            android:layout_marginRight="143dp"
-            android:onClick="debugSave"
-            android:text="Debug" />
-
-        <Button
-            android:id="@+id/button2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="174dp"
-            android:layout_marginLeft="174dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="144dp"
-            android:layout_marginRight="144dp"
-            android:onClick="saveData"
-            android:text="save" />
-
-        <Button
-            android:id="@+id/button3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_marginStart="172dp"
-            android:layout_marginLeft="172dp"
-            android:layout_marginTop="156dp"
-            android:layout_marginEnd="146dp"
-            android:layout_marginRight="146dp"
-            android:onClick="loadData"
-            android:text="CLEAR ALL" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -247,7 +207,7 @@
             android:layout_marginRight="122dp"
             android:layout_marginBottom="76dp"
             android:onClick="goProfile"
-            android:text="Profile" />
+            android:text="Profile(väliaikainen)" />
 
     </RelativeLayout>
 
