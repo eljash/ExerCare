@@ -20,9 +20,8 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.util.Log;
 
-import java.util.Collections;
+import java.util.Calendar;
 import java.util.Date;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -31,12 +30,14 @@ import com.google.gson.reflect.TypeToken;
 
 public class Mega {
     private String currentDate;
-    private ArrayList<dataOlio> SaveList = new ArrayList<dataOlio>();
+    private ArrayList<dataOlio> SaveList = new ArrayList<>();
+    private ArrayList<dataOlio> thisMonthList = new ArrayList<>();
     private String currentSavePackage = null;
-    private static Context activityContext;
+    private Context activityContext;
     private dataOlio today;
     private dataOlio dayToHandle;
     private int x = 1;
+    private SuperMetodit SM = new SuperMetodit();
 
     private static final String LOGTAG = "MEGA.JAVA";
 
@@ -55,137 +56,35 @@ public class Mega {
      * */
     public void todayData(){
         Log.d(LOGTAG, "todayData()");
-        today = searchDateFromList(getDate());
+        Date d = new Date();
+
+        String year = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.YEAR)),4);
+        String month = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.MONTH)),2);
+        int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+
+        Log.d(LOGTAG,"checking if data package exists...");
+        if(!checkForDataPackage(year,month)){
+            Log.d(LOGTAG,"data package not found. Creating.");
+            createDataPackage(year,month);
+        }
+
+        thisMonthList = getSavedData(year,month);
+        Log.d(LOGTAG,"this months data package opened");
+
+        today = dayFromList(day,thisMonthList);
         if(today == null){
             Log.d(LOGTAG, "no data for this day");
             today = new dataOlio();
-            if(SaveList.size() != 0){
-                today.insertWeight(SaveList.get(SaveList.size()-1).returnWeight());
-                Log.d(LOGTAG, "adding new day to array with weight value");
+            if(thisMonthList.size() != 0){
+                today.insertWeight(thisMonthList.get(thisMonthList.size()-1).returnWeight());
+                Log.d(LOGTAG, "adding new day to array with weight value [OK]");
             }
-            SaveList.add(today);
-            saveData();
+            today.changeDay(day);
+            thisMonthList.add(today);
+            savePackage(year,month,thisMonthList);
         } else {
             Log.d(LOGTAG, "this day has data");
         }
-    }
-
-    /**
-     * Katsoo listan läpi mahdollisilta virheiltä
-     */
-    public void searchList(){
-        Log.d(LOGTAG, "searchList()");
-        if(SaveList.size()>0) {
-
-            boolean onkoJarjestuksessa = true;
-
-            /**
-             * Verrataan listan olioiden päivämääriä, jos väärässä järjestyksessä ->
-             * järjestetään lista uudelleen
-             */
-
-             for (int i = 0; i < SaveList.size();i++){
-                 if(SaveList.get(i).getDateInt() > SaveList.get(i++).getDateInt()){
-                     onkoJarjestuksessa = false;
-                     break;
-                 }
-             }
-             /** JOS LISTA EI OLE JÄRJESTYKSESSÄ */
-             if(!onkoJarjestuksessa){
-                 Log.d(LOGTAG, "reorganizing datalist");
-                 /**
-                  * Ensiksi tehdään ArrayList johon otetaan dataOlio ArrayLististä
-                  * päivämäärä Integer muodossa. Nämä päivämäärät laitetaan vastaavaan
-                  * indexiin Integer listassa.
-                  */
-
-                 ArrayList<Integer> objectNumber = new ArrayList<Integer>();
-                 Log.d(LOGTAG,"Inserting values from ObjectList to IntegerList");
-                 for(int i = 0; i < SaveList.size();i++){
-                     objectNumber.set(i, SaveList.get(i).getDateInt());
-                     Log.d(LOGTAG,"Index "+i+" - value: "+objectNumber.get(i));
-                 }
-
-                 /**
-                  * Kutsutaan kokoelmasta sort metodisa, joka järjestää Integer listan
-                  * muuttujat arvojärjestykseen.
-                  */
-
-                 Collections.sort(objectNumber);
-
-                 /** LUODAAN UUSI ARRAYLISTI JOHON VÄLIAIKAISESTI TALLENETAAN
-                  * OLIOLISTAN DATA JA SIIRRETÄÄN JÄRJESTYKSESSÄ TAKAISIN */
-
-                 ArrayList<dataOlio> tempData = new ArrayList<dataOlio>();
-
-                 Log.d(LOGTAG,"inserting values to new temporary ObjectList");
-
-                 for(int i = 0; i < SaveList.size();i++){
-                    tempData.set(i, searchIntDateFromList(objectNumber.get(i)));
-                     Log.d(LOGTAG,"Index "+i+" - value: "+tempData.get(i).getDateInt());
-                 }
-
-                 Log.d(LOGTAG,"inserting values from temporary ObjectList to ObjectList");
-
-                 /** SIIRRETÄÄN TEMP LISTALTA TIEDOT PÄÄ ARRAYLISTIIN */
-                 for(int i = 0; i < tempData.size();i++){
-                     SaveList.set(i, tempData.get(i));
-                     Log.d(LOGTAG,"TmpList Key: "+tempData.get(i).getDateInt()+" - ObjList key: "+SaveList.get(i).getDateInt());
-                 }
-             }
-             saveData();
-        }
-
-    }
-
-    /**
-     * Ottaa muuttujan Stringin joka on muotoa
-     * dd/MM/yyyy
-     * Vertailee syötettyä stringiä listan jokaisen
-     * indexin olioihin, kunnes löytyy mahdollinen
-     * olio tällä päivämäärällä
-     */
-    public dataOlio searchDateFromList(String date) {
-        Log.d(LOGTAG,"searchDateFromList()");
-        int size = SaveList.size();
-        Log.d(LOGTAG,"ObjectList size: "+size);
-        if (size > 0) {
-            Log.d(LOGTAG, size+" > 0");
-            for (int i = (size - 1); i >= 0; i--) {
-                String dateToCompare = SaveList.get(i).getSaveDate();
-                Log.d(LOGTAG,"  Comparing: "+date + " - "+dateToCompare);
-                if (dateToCompare.equals(date)) {
-                    Log.d(LOGTAG,"Object with the same date found!");
-                    return SaveList.get(i);
-                }
-            }
-        }
-        Log.d(LOGTAG,"Date: "+date+" is not stored...");
-        return null;
-    }
-
-    /**
-     * Ottaa muuttujan int joka on muotoa
-     * yyyyMMdd
-     * Vertailee syötettyä stringiä listan jokaisen
-     * indexin olioihin, kunnes löytyy mahdollinen
-     * olio tällä päivämäärällä
-     */
-    public dataOlio searchIntDateFromList(int date) {
-        Log.d(LOGTAG,"searchIntDateFromList()");
-        loadData();
-        Log.d(LOGTAG, "Searching object with date: "+date);
-        int size = SaveList.size();
-        if (size > 0) {
-            for (int i = size - 1; i <= 0; i--) {
-                if (SaveList.get(i).getDateInt() == date) {
-                    Log.d(LOGTAG,"Object found with date: "+date);
-                    return SaveList.get(i);
-                }
-            }
-        }
-        Log.d(LOGTAG,"Object with date: "+date+" not found....");
-        return null;
     }
 
     /** METODI DATAN TALLENTAMISEEN JSON MUOTOON */
@@ -198,7 +97,7 @@ public class Mega {
         Log.d(LOGTAG,"JSON format:");
         Log.d(LOGTAG,json);
         dataEditor.putString("data", json);
-        dataEditor.commit();
+        dataEditor.apply();
     }
 
     /** DATA PAKETIN TALLENNUS METODI */
@@ -211,14 +110,14 @@ public class Mega {
         Log.d(LOGTAG,"JSON format:");
         Log.d(LOGTAG,json);
         dataEditor.putString(currentSavePackage, json);
-        dataEditor.commit();
+        dataEditor.apply();
     }
 
     /** TALLENNA TIETTY LISTA TIETTYYN DATA PAKETTIIN */
     private void savePackage(String v, String m, ArrayList<dataOlio> dataList){
         Log.d(LOGTAG,"savePackage()");
-        v = customDigit(v,4);
-        m = customDigit(m, 2);
+        v = SM.customDigit(v,4);
+        m = SM.customDigit(m, 2);
         String saveName = "DataY"+v+"M"+m;
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
         SharedPreferences.Editor dataEditor = dataSaving.edit();
@@ -227,17 +126,7 @@ public class Mega {
         Log.d(LOGTAG,"JSON format:");
         Log.d(LOGTAG,json);
         dataEditor.putString(saveName, json);
-        dataEditor.commit();
-    }
-
-    /** JSON TALLENNUKSEN AVAAMINEN JA MUUTTAMINEN ARRAYLISTIKSI */
-    public void loadData(){
-        Log.d(LOGTAG,"loadData()");
-        SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = dataSaving.getString("data", "Empty");
-        Log.d(LOGTAG,json);
-        this.SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
+        dataEditor.apply();
     }
 
     /** VERTAA ONKO PAKETTI SAMAN NIMINEN KUIN "String date"
@@ -259,8 +148,8 @@ public class Mega {
                 Log.d(LOGTAG,"every parameter has correct length [OK]");
             } else {
                 Log.d(LOGTAG,"not every parameter has the correct length [CONVERTING]");
-                year = customDigit(year,4);
-                month = customDigit(month,2);
+                year = SM.customDigit(year,4);
+                month = SM.customDigit(month,2);
                 Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
             }
             saveDataPackage();
@@ -273,7 +162,7 @@ public class Mega {
     }
 
     private ArrayList<dataOlio> getSavedData(String v, String m){
-        String saveName = "DataY"+v+"M"+m;
+        String saveName = SM.createPackageName(v,m);
         Log.d(LOGTAG,"getSavedData() - "+saveName);
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
         Gson gson = new Gson();
@@ -283,59 +172,14 @@ public class Mega {
             this.SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             currentSavePackage = saveName;
             Log.d(LOGTAG,"Data package '"+saveName+"' loaded successfully! [OK]");
+            if(gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) == null){
+                return new ArrayList<>();
+            }
             return gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
         } else {
             Log.d(LOGTAG,"no data package with name: "+saveName+" [FAILED]");
         }
         return null;
-    }
-
-    public dataOlio dateToHandle(int d){
-        Log.d(LOGTAG,"dateToHandle()");
-        if(dayToHandle.getDay() == d){
-            Log.d(LOGTAG,"this date data already open! [OK]");
-            return dayToHandle;
-        }else if(this.SaveList.size() > 0){
-            for(int i=this.SaveList.size()-1; i >= 0; i--){
-                if(Integer.toString(this.SaveList.get(i).getDay()).equals(d)){
-                    dayToHandle = this.SaveList.get(i);
-                    Log.d(LOGTAG,"this date data found! [OK]");
-                    return dayToHandle;
-                }
-            }
-        }
-        Log.d(LOGTAG,"No date found! Returning null. [FAILED]");
-        return null;
-    }
-
-    /** PÄIVÄMÄÄRÄN MÄÄRITTÄMISEN METODI */
-    private String getDate(){
-        Log.d(LOGTAG,"getDate()");
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy/MM/dd");
-        Date date = new Date();
-        currentDate = formatter.format(date);
-        Log.d(LOGTAG,"Today date: "+currentDate);
-        return currentDate;
-    }
-
-    /** MUUNTAA ANNETUSTA ARVOSTA NIIN MONTA DIGISEN ARVON KUIN HALUAA */
-    private String customDigit(String x, int dig){
-        Log.d(LOGTAG,"customDigit()");
-        if(dig > 0){
-            if(x.length()<dig){
-                Log.d(LOGTAG,"X wrong length: "+x.length()+" and length should be: "+dig+" [CONVERTING]");
-                for(int i = (dig-x.length()); i > 0;i--){
-                    x="0"+x;
-                }
-                Log.d(LOGTAG,"conversion done. Returning value: "+x+" [OK]");
-                return x;
-            }
-        } else {
-            Log.d(LOGTAG,"given dig number was 0 or under: "+dig+". Returning starting value [FAILED]");
-            return x;
-        }
-        Log.d(LOGTAG,"given value: "+x+" already had "+dig+" digits [OK]");
-        return x;
     }
 
     /** KATSOO ONKO PÄIVÄMÄÄRÄLLE JO OMA DATA PAKETTI true = on, false = ei*/
@@ -360,8 +204,9 @@ public class Mega {
         Log.d(LOGTAG, "Searching object with day: "+d);
         if(objectList != null){
             int size = objectList.size();
+            Log.d(LOGTAG,"object list size: "+size);
             if (size > 0) {
-                for (int i = size - 1; i <= 0; i--) {
+                for (int i = size - 1; i >= 0; i--) {
                     if (objectList.get(i).getDay() == d) {
                         Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
                         return objectList.get(i);
@@ -385,17 +230,12 @@ public class Mega {
             Log.d(LOGTAG,"creating new data package with name: "+packageName);
             SharedPreferences newPackage = activityContext.getSharedPreferences("saveData",Activity.MODE_PRIVATE);
             SharedPreferences.Editor newPackageEditor = newPackage.edit();
-            newPackageEditor.putString(packageName,null);
-            newPackageEditor.commit();
+            newPackageEditor.putString(packageName,"[]");
+            newPackageEditor.apply();
             Log.d(LOGTAG,"new package created! [OK]");
         } else {
             Log.d(LOGTAG,"data package with year: "+v+" and month: "+m+" already exists! [FAILED]");
         }
-    }
-
-    /** PALAUTTAA AUKI OLEVAN LISTAN PITUUDEN */
-    public int listSize(){
-        return SaveList.size();
     }
 
     /** AUKI OLEVAN LISTAN TYHJETÄJÄ */
@@ -411,8 +251,8 @@ public class Mega {
         ArrayList<dataOlio> dataList;
         dataOlio insertDay;
         Log.d(LOGTAG,"inserting date year:"+v+"month: "+m+" day: "+d+" sport "+sport+" screet "+screen+" weight "+weight);
-        v = customDigit(v,4);
-        m = customDigit(m,2);
+        v = SM.customDigit(v,4);
+        m = SM.customDigit(m,2);
 
         packageFound = checkForDataPackage(v,m);
         if(packageFound){
