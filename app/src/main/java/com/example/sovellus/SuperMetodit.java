@@ -31,4 +31,30 @@ public class SuperMetodit {
         m = customDigit(m,2);
         return "DataY"+v+"M"+m;
     }
+
+    public String convertSeconds(int sec){
+        int h = 0;
+        int m = 0;
+        int s = 0;
+        int x = 0;
+        while(sec >= 3600){
+            h++;
+            sec-=3600;
+            x++;
+            if(x>24)break;
+        }
+        x = 0;
+        while(sec >= 60){
+            m++;
+            sec-=60;
+            x++;
+            if(x>60)break;
+        }
+        if(h>0){
+            return h+"h "+m+"min "+s+"s";
+        } else if(m>0){
+            return m+"min "+s+"s";
+        }
+        return s+"s";
+    }
 }

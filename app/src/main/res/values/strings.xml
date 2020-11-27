@@ -12,4 +12,8 @@
     <string name="sport_goal">Urheilu tavoite:</string>
     <string name="screen_goal">Ruutu tavoite:</string>
     <string name="change">vaihda</string>
+    <string name="values_text">Tämän päivän arvot</string>
+    <string name="weight">Paino:</string>
+    <string name="sport_time">Urheilu aika:</string>
+    <string name="screen_time">Ruutu aika:</string>
 </resources>

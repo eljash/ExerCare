@@ -2,6 +2,7 @@ package com.example.sovellus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,16 +15,29 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static final String LOGTAG = "ProfileActivity.java";
 
-    TextView profN;
-    TextView brthD;
-    TextView weightGoal;
-    TextView sportGoal;
-    TextView screenGoal;
+    SuperMetodit SM = new SuperMetodit();
+
+    private String weight;
+    private String sport;
+    private String screen;
+
+    private TextView profN;
+    private TextView brthD;
+    private TextView weightGoal;
+    private TextView sportGoal;
+    private TextView screenGoal;
+    private TextView weightValue;
+    private TextView sportValue;
+    private TextView screenValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        Intent intent = getIntent();
+        this.weight = String.valueOf(intent.getDoubleExtra("paino",0));
+        this.sport = Integer.toString(intent.getIntExtra("urheilu",0));
+        this.screen = "0";
     }
 
     @Override
@@ -46,10 +60,17 @@ public class ProfileActivity extends AppCompatActivity {
         weightGoal = findViewById(R.id.weightGoalTextValue);
         sportGoal = findViewById(R.id.sportGoalTextValue);
         screenGoal = findViewById(R.id.screenGoalTextValue);
+        weightValue = findViewById(R.id.weightTextValue);
+        sportValue = findViewById(R.id.sportTextValue);
+        screenValue = findViewById(R.id.screenTextValue);
+
         profN.setText(userProfile.name());
         brthD.setText(userProfile.day()+"."+userProfile.month()+"."+userProfile.year());
         weightGoal.setText(String.valueOf(userProfile.weightGoal()));
-        sportGoal.setText(Integer.toString(userProfile.sportTimeGoal()));
-        screenGoal.setText(Integer.toString(userProfile.screenTimeGoal()));
+        sportGoal.setText(SM.convertSeconds(userProfile.sportTimeGoal()));
+        screenGoal.setText(SM.convertSeconds(userProfile.screenTimeGoal()));
+        weightValue.setText(weight);
+        sportValue.setText(sport);
+        screenValue.setText(screen);
     }
 }

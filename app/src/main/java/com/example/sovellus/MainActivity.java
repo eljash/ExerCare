@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
+        intent.putExtra("urheilu", eCounter.getCurrent());
+        intent.putExtra("paino",todayObject.returnWeight());
         startActivity(intent);
     }
 
