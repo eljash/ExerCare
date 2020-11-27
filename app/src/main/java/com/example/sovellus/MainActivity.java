@@ -2,11 +2,15 @@ package com.example.sovellus;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
+
+import java.util.Date;
 
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
@@ -42,12 +46,19 @@ public class MainActivity extends AppCompatActivity {
 
         mega.todayData();
         todayObject = mega.todayObject();
-        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
-        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
 
         sportSwitch = findViewById(R.id.Sport_switch);
         screenSwitch = findViewById(R.id.Screen_switch);
 
+        checkLastExit();
+
+
+    }
+
+    public void clearSave(View v){
+        mega.clearData();
+        sCounter.setCurrent(0);
+        eCounter.setCurrent(0);
     }
 
     public void sportTimeClicked(View v) {
@@ -90,6 +101,56 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void checkLastExit(){
+        Log.d(LOGTAG,"checkLastExit()");
+        SharedPreferences shpref = this.getSharedPreferences("AppState", Activity.MODE_PRIVATE);
+        eRunning = shpref.getBoolean("sportON",false);
+        sRunning = shpref.getBoolean("screenON",false);
+        sportSwitch.setChecked(false);
+        screenSwitch.setChecked(false);
+        Date timeNow = new Date();
+        if(eRunning){
+            sportSwitch.setChecked(true);
+            Date exitTime = new Date(shpref.getLong("sportOnDate",0));
+            long seconds = (timeNow.getTime()-exitTime.getTime())/1000;
+            todayObject.insertSport(todayObject.sportSec()+(int)seconds);
+        }else if(sRunning){
+            screenSwitch.setChecked(true);
+            Date exitTime = new Date(shpref.getLong("screenOnDate",0));
+            long seconds = (timeNow.getTime()-exitTime.getTime())/1000;
+            todayObject.insertScreen(todayObject.screenSec()+(int)seconds);
+        }
+
+        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
+        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
+
+        eCounter.stop();
+        sCounter.stop();
+        if(eRunning)eCounter.run();
+        else if(sRunning)sCounter.run();
+    }
+
+    public void saveExitState(){
+        Log.d(LOGTAG,"saveExitState()");
+        SharedPreferences shpref = this.getSharedPreferences("AppState", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor predit = shpref.edit();
+        predit.putBoolean("sportON",sportSwitch.isChecked());
+        predit.putBoolean("screenON",screenSwitch.isChecked());
+        Date timeNow = new Date();
+        if(sportSwitch.isChecked()){
+            predit.putLong("sportOnDate",timeNow.getTime());
+        } else {
+            predit.putLong("sportOnDate",0);
+        }
+        if(screenSwitch.isChecked()){
+            predit.putLong("screenOnDate",timeNow.getTime());
+        } else {
+            predit.putLong("screenOnDate",0);
+        }
+
+        predit.apply();
+    }
+
     @Override
     protected void onStop(){
         super.onStop();
@@ -98,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         todayObject.insertScreen(sCounter.getCurrent());
         Log.d(LOGTAG,"Counter values (sport, screen) "+eCounter.getCurrent()+", "+sCounter.getCurrent());
         mega.saveToday();
+        saveExitState();
     }
 
 }
