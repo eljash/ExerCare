@@ -21,7 +21,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
@@ -60,7 +59,6 @@ public class Mega {
      * */
     public void todayData(){
         Log.d(LOGTAG, "todayData()");
-        Date d = new Date();
 
         String year = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.YEAR)),4);
         String month = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.MONTH)),2);
@@ -79,7 +77,7 @@ public class Mega {
         today = dayFromList(day,thisMonthList);
         if(today == null){
             Log.d(LOGTAG, "no data for this day");
-            today = new dataOlio();
+            today = new dataOlio(currentDate,year,month);
             if(thisMonthList.size() != 0){
                 today.insertWeight(thisMonthList.get(thisMonthList.size()-1).returnWeight());
                 Log.d(LOGTAG, "adding new day to array with weight value [OK]");
@@ -96,21 +94,10 @@ public class Mega {
     public dataOlio todayObject(){
         if(today == null){
             todayData();
+        }else{
+            saveToday();
         }
         return today;
-    }
-
-    /** METODI DATAN TALLENTAMISEEN JSON MUOTOON */
-    public void saveData(){
-        Log.d(LOGTAG,"saveData()");
-        SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor dataEditor = dataSaving.edit();
-        Gson gson = new Gson();
-        String json = gson.toJson(SaveList);
-        Log.d(LOGTAG,"JSON format:");
-        Log.d(LOGTAG,json);
-        dataEditor.putString("data", json);
-        dataEditor.apply();
     }
 
     /** DATA PAKETIN TALLENNUS METODI */
@@ -144,7 +131,7 @@ public class Mega {
         Log.d(LOGTAG,"savePackage()");
         v = SM.customDigit(v,4);
         m = SM.customDigit(m, 2);
-        String saveName = "DataY"+v+"M"+m;
+        String saveName = SM.createPackageName(v,m);
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
         SharedPreferences.Editor dataEditor = dataSaving.edit();
         Gson gson = new Gson();
@@ -159,10 +146,7 @@ public class Mega {
      *  String date:n TULISI OLLA MUOTO "DataY2020M12"
      */
     public boolean packageDateEquals(String date){
-        if(currentSavePackage.equals(date)){
-            return true;
-        }
-        return false;
+        return currentSavePackage.equals(date);
     }
 
     public ArrayList<dataOlio> loadData(String year, String month){
@@ -210,10 +194,9 @@ public class Mega {
 
     /** KATSOO ONKO PÄIVÄMÄÄRÄLLE JO OMA DATA PAKETTI true = on, false = ei*/
     private boolean checkForDataPackage(String v, String m){
-        String saveName = "DataY"+v+"M"+m;
+        String saveName = SM.createPackageName(v,m);
         Log.d(LOGTAG,"checkForDataPackage() - "+saveName);
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
-        Gson gson = new Gson();
         String json = dataSaving.getString(saveName, "Empty");
         if(!json.equals("Empty")){
             Log.d(LOGTAG,"Data package '"+saveName+"' found! [OK]");
@@ -252,7 +235,7 @@ public class Mega {
     private void createDataPackage(String v, String m){
         Log.d(LOGTAG,"createDataPackage()");
         if(!checkForDataPackage(v,m)){
-            String packageName = "DataY"+v+"M"+m;
+            String packageName = SM.createPackageName(v,m);
             Log.d(LOGTAG,"creating new data package with name: "+packageName);
             SharedPreferences newPackage = activityContext.getSharedPreferences("saveData",Activity.MODE_PRIVATE);
             SharedPreferences.Editor newPackageEditor = newPackage.edit();
@@ -275,28 +258,38 @@ public class Mega {
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
         Log.d(LOGTAG,"insertData()");
-        boolean packageFound = false;
         ArrayList<dataOlio> dataList;
         dataOlio insertDay;
         Log.d(LOGTAG,"inserting date year:"+v+"month: "+m+" day: "+d+" sport "+sport+" screet "+screen+" weight "+weight);
         v = SM.customDigit(v,4);
         m = SM.customDigit(m,2);
 
-        packageFound = checkForDataPackage(v,m);
-        if(packageFound){
+        if(checkForDataPackage(v,m)){
             dataList = loadData(v,m);
         }else{
             createDataPackage(v,m);
             dataList = loadData(v,m);
         }
 
-        if(dayFromList(d,dataList) != null){
+        insertDay = dayFromList(d,dataList);
+
+        if(insertDay != null){
             Log.d(LOGTAG,"inserting values to arraylist");
             insertDay = dayFromList(d,dataList);
             insertDay.insertSport(sport);
             insertDay.insertScreen(screen);
             insertDay.insertWeight(weight);
             insertDay.insertWeightBoolean(day);
+            savePackage(v,m,dataList);
+        } else {
+            Log.d(LOGTAG,"creating new day to list and adding values [OK]");
+            insertDay = new dataOlio(SM.createPackageName(v,m),v,m);
+            insertDay.changeDay(d);
+            insertDay.insertSport(sport);
+            insertDay.insertScreen(screen);
+            insertDay.insertWeight(weight);
+            insertDay.insertWeightBoolean(day);
+            dataList.add(insertDay);
             savePackage(v,m,dataList);
         }
     }

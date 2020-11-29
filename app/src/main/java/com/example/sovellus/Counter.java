@@ -1,7 +1,5 @@
 package com.example.sovellus;
 
-import android.widget.Switch;
-import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -9,10 +7,7 @@ import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class Counter {
     private int seconds;
-    private int minutes;
-    private int hours;
     private Timer timer;
-    private int max;
     private CustomGauge tv;
     private boolean firstRun = true;
 
@@ -21,11 +16,6 @@ public class Counter {
         this.timer = new Timer();
         this.tv = CG;
         this.tv.setValue(this.seconds);
-    }
-
-    public Counter() {
-        this.seconds = 0;
-        this.timer = new Timer();
     }
 
     public int getCurrent() {
