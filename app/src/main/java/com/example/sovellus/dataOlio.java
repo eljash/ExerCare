@@ -90,7 +90,7 @@ public class dataOlio{
 
     /** PALAUTTAA OLION LUOMIS PÄIVÄMÄÄRÄN JOKA TOIMII MYÖS OLION AVAIMENA */
     public String getPackageName(){
-        return key;
+        return this.key;
     }
 
     /** PALAUTTAA PÄIVÄN NUMERO */

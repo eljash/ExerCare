@@ -10,12 +10,16 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class MainActivity extends AppCompatActivity {
     private Mega mega;
+    private SuperMetodit SM = new SuperMetodit();
+
     private static final String LOGTAG = "MainActivity.java";
     private boolean eRunning = false;
     private boolean sRunning = false;
@@ -25,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private Switch sportSwitch;
     private Switch screenSwitch;
+
+    private SimpleDateFormat DateFor = new SimpleDateFormat("dd/MM/yyyy");
 
     private dataOlio todayObject;
 
@@ -103,40 +109,68 @@ public class MainActivity extends AppCompatActivity {
 
     public void checkLastExit(){
         Log.d(LOGTAG,"checkLastExit()");
+        Date timeNow = new Date();
+
         SharedPreferences shpref = this.getSharedPreferences("AppState", Activity.MODE_PRIVATE);
+
+        String dateExit = shpref.getString("exitDate","0");
+        String dateNow = DateFor.format(timeNow);
+        Log.d(LOGTAG,"quit date was: "+dateExit+" date now: "+dateNow);
+
         eRunning = shpref.getBoolean("sportON",false);
         sRunning = shpref.getBoolean("screenON",false);
         sportSwitch.setChecked(false);
         screenSwitch.setChecked(false);
-        Date timeNow = new Date();
+
         if(eRunning){
             sportSwitch.setChecked(true);
             Date exitTime = new Date(shpref.getLong("sportOnDate",0));
             long seconds = (timeNow.getTime()-exitTime.getTime())/1000;
-            todayObject.insertSport(todayObject.sportSec()+(int)seconds);
+
+            if(dateExit.equals(dateNow)|| seconds < 28800){
+                todayObject.insertSport(todayObject.sportSec()+(int)seconds);
+            } else {
+                eRunning = false;
+                sRunning = false;
+            }
+
         }else if(sRunning){
             screenSwitch.setChecked(true);
             Date exitTime = new Date(shpref.getLong("screenOnDate",0));
             long seconds = (timeNow.getTime()-exitTime.getTime())/1000;
-            todayObject.insertScreen(todayObject.screenSec()+(int)seconds);
+
+            if(dateExit.equals(dateNow)|| seconds < 28800){
+                todayObject.insertScreen(todayObject.screenSec()+(int)seconds);
+            } else {
+                eRunning = false;
+                sRunning = false;
+            }
+
         }
 
         eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
         sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
 
-        eCounter.stop();
-        sCounter.stop();
         if(eRunning)eCounter.run();
         else if(sRunning)sCounter.run();
     }
 
     public void saveExitState(){
         Log.d(LOGTAG,"saveExitState()");
+
         SharedPreferences shpref = this.getSharedPreferences("AppState", Activity.MODE_PRIVATE);
         SharedPreferences.Editor predit = shpref.edit();
+
         predit.putBoolean("sportON",sportSwitch.isChecked());
         predit.putBoolean("screenON",screenSwitch.isChecked());
+
         Date timeNow = new Date();
+        predit.putString("exitDate", DateFor.format(timeNow));
+        Log.d(LOGTAG,"quit date: "+DateFor.format(timeNow));
+
+        predit.putString("exitPackage", todayObject.getPackageName());
+        Log.d(LOGTAG,"package used before quit: "+todayObject.getPackageName());
+
         if(sportSwitch.isChecked()){
             predit.putLong("sportOnDate",timeNow.getTime());
         } else {
@@ -160,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
         Log.d(LOGTAG,"Counter values (sport, screen) "+eCounter.getCurrent()+", "+sCounter.getCurrent());
         mega.saveToday();
         saveExitState();
+        eCounter.stop();
+        sCounter.stop();
     }
 
 }
