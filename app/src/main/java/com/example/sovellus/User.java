@@ -13,10 +13,11 @@ public class User {
     private int day;
     private Date creationDate;
 
-    public User(String name) {
+    public User(String name, double startWeight, int sportTimeGoal, int screenTimeGoal) {
         this.name = name;
-        this.sportTimeGoal = 60;
-        this.screenTimeGoal = 60;
+        this.startWeight = startWeight;
+        this.sportTimeGoal = sportTimeGoal;
+        this.screenTimeGoal = screenTimeGoal;
         this.creationDate = new Date();
     }
 

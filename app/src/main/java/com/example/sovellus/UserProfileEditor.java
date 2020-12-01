@@ -12,6 +12,7 @@ public class UserProfileEditor {
 
     private Context context;
     private User userProfile;
+
     public UserProfileEditor(Context c){
         this.context = c;
         getProfile();
@@ -47,6 +48,20 @@ public class UserProfileEditor {
         editSaving.putInt("birth_month",userProfile.month());
         editSaving.putInt("birth_day",userProfile.day());
         editSaving.putLong("creation_date",userProfile.date().getTime());
+        editSaving.apply();
+    }
+
+    /** KÄYTETTY NEWUSERACTIVITY-LUOKASSA UUDEN PROFIILIN TALLENTAMISEEN */
+
+    public void saveProfile(User user){
+        SharedPreferences dataSaving = context.getSharedPreferences("profile", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editSaving = dataSaving.edit();
+        editSaving.putString("profile_name",user.name());
+        editSaving.putLong("start_weight",Double.doubleToLongBits(user.startWeight()));
+        editSaving.putLong("weight_goal",Double.doubleToLongBits(user.weightGoal()));
+        editSaving.putInt("sport_time_goal",user.sportTimeGoal());
+        editSaving.putInt("screen_time_goal",user.screenTimeGoal());
+        editSaving.putLong("creation_date",user.date().getTime());
         editSaving.apply();
     }
 }

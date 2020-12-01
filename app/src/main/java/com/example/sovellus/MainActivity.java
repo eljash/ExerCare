@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import pl.pawelkleczkowski.customgauge.CustomGauge;
@@ -21,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     private boolean sRunning = false;
     private Counter eCounter;
     private Counter sCounter;
-    private User user = new User("user");
+    private User user;
+    private UserProfileEditor profile;
 
     private Switch sportSwitch;
     private Switch screenSwitch;
@@ -33,6 +35,17 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.mega = new Mega(this);
+
+        /** TARKISTETAAN ONKO KÄYTTÄJÄPROFIILIA VIELÄ LUOTU */
+
+        profile = new UserProfileEditor(this);
+        user = profile.returnProfile();
+        if (user.name().equals("No name")) {
+            Log.d("Message", "No user found, switching to NewUserActivity");
+            Intent intent = new Intent(this, NewUserActivity.class);
+            startActivity(intent);
+        }
+
         CustomGauge sportGauge = findViewById(R.id.sportTV);
         CustomGauge screenGauge = findViewById(R.id.screenTV);
         sportGauge.setEndValue(user.sportTimeGoal());
@@ -51,7 +64,6 @@ public class MainActivity extends AppCompatActivity {
         screenSwitch = findViewById(R.id.Screen_switch);
 
         checkLastExit();
-
 
     }
 
