@@ -253,6 +253,10 @@ public class Mega {
         SharedPreferences.Editor SprefEdit = SPref.edit();
         SprefEdit.clear();
         SprefEdit.apply();
+        SPref = activityContext.getSharedPreferences("profile", Activity.MODE_PRIVATE);
+        SprefEdit = SPref.edit();
+        SprefEdit.clear();
+        SprefEdit.apply();
     }
 
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
