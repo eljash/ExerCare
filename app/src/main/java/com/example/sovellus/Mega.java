@@ -208,7 +208,7 @@ public class Mega {
     }
 
     /** ETSII LISTASTA HALUTUN PÄIVÄN */
-    private dataOlio dayFromList(int d,ArrayList<dataOlio> objectList){
+    public dataOlio dayFromList(int d,ArrayList<dataOlio> objectList){
         Log.d(LOGTAG,"dayFromList()");
         Log.d(LOGTAG, "Searching object with day: "+d);
         if(objectList != null){
