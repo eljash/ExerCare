@@ -163,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
 
         eRunning = shpref.getBoolean("sportON",false);
         sRunning = shpref.getBoolean("screenON",false);
-        
+
         // ASETTAA VARMUUDEN VUOKSI AKTIVITEETIN SWITCH:IT OFF TILAAN
         sportSwitch.setChecked(false);
         screenSwitch.setChecked(false);
