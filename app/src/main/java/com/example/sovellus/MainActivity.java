@@ -38,16 +38,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         this.mega = new Mega(this);
 
-        /** TARKISTETAAN ONKO KÄYTTÄJÄPROFIILIA VIELÄ LUOTU */
-
-        profile = new UserProfileEditor(this);
-        user = profile.returnProfile();
-        if (user.name().equals("No name")) {
-            Log.d("Message", "No user found, switching to NewUserActivity");
-            Intent intent = new Intent(this, NewUserActivity.class);
-            startActivity(intent);
-        }
-
         CustomGauge sportGauge = findViewById(R.id.sportTV);
         CustomGauge screenGauge = findViewById(R.id.screenTV);
         sportGauge.setEndValue(user.sportTimeGoal());
@@ -58,6 +48,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         Log.d(LOGTAG,"onStart()");
+        checkForProfile();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        Log.d(LOGTAG,"onResume()");
 
         mega.todayData();
         todayObject = mega.todayObject();
@@ -67,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         checkLastExit();
 
-
+        correctCounterStates();
     }
 
     public void clearSave(View v){
@@ -116,10 +113,43 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /** METODI VARMISTAA, ETTÄ SWITCHIN BOOLEAN ON SAMA KUIN AJASTIMEN PYÖRIMIS BOOLEAN */
+    private void correctCounterStates(){
+        if(sportSwitch.isChecked()!=eCounter.isRunning() || screenSwitch.isChecked() != sCounter.isRunning()){
+
+            /** KATSOO SPORTTI SWITCHIN JA AJASTIMEN */
+            if(sportSwitch.isChecked() && !eCounter.isRunning()){
+                eCounter.run();
+            } else if(!sportSwitch.isChecked() && eCounter.isRunning()){
+                eCounter.stop();
+            }
+
+            /** KATSOO RUUTU SWITCHIN JA AJASTIMEN */
+            if(screenSwitch.isChecked() && !sCounter.isRunning()){
+                sCounter.run();
+            } else if(!screenSwitch.isChecked() && sCounter.isRunning()){
+                sCounter.stop();
+            }
+        }
+    }
+
+    /** METODI KATSOO ONKO SOVELLUKSESSA LUOTU JO PROFIILIA */
+    private void checkForProfile(){
+        profile = new UserProfileEditor(this);
+        user = profile.returnProfile();
+        if (user.name().equals("No name")) {
+            Log.d("Message", "No user found, switching to NewUserActivity");
+            Intent intent = new Intent(this, NewUserActivity.class);
+            startActivity(intent);
+        }
+    }
+
+    /** KATSOO MILLAINEN TILA TALLENNETTIIN VIIMEKSI AKTIVITEETISTA POISTUESSA */
     public void checkLastExit(){
         Log.d(LOGTAG,"checkLastExit()");
         Date timeNow = new Date();
 
+        /** HAKEE SHAREDPREFERENCES:ISTÄ TIEDOSTON JOHON TILA TALLENNETTIIN */
         SharedPreferences shpref = this.getSharedPreferences("AppState", Activity.MODE_PRIVATE);
 
         String dateExit = shpref.getString("exitDate","0");
@@ -128,14 +158,19 @@ public class MainActivity extends AppCompatActivity {
 
         eRunning = shpref.getBoolean("sportON",false);
         sRunning = shpref.getBoolean("screenON",false);
+        /** ASETTAA VARMUUDEN VUOKSI AKTIVITEETIN SWITCH:IT OFF TILAAN */
         sportSwitch.setChecked(false);
         screenSwitch.setChecked(false);
 
+        /** TÄMÄ BOOLEAN TOTEUTUU JOS URHEILU SWITCH OLI PÄÄLLÄ AKTIVITEETISTÄ POISTUESSA */
         if(eRunning){
             sportSwitch.setChecked(true);
             Date exitTime = new Date(shpref.getLong("sportOnDate",0));
             long seconds = (timeNow.getTime()-exitTime.getTime())/1000;
 
+            /** JOS POISTUMIS PÄIVÄ OLI SAMA KUIN UUDELLEEN AVAUS PÄIVÄ TAI SIITÄ ON ALLE 8 TUNTIA (28800SEC) */
+            /** LAUSEKE LISÄÄ NYKYISELLE PÄIVÄLLE KULUNEEN AJAN, ELI JOS VUOROKAUSI ON KERENNYT VAIHTUA
+             * MUTTA AIKAERO ON ALLE 8 TUNTIA ASETETAAN KULUNUT AIKA NYKYISELLE PÄIVÄLLE*/
             if(dateExit.equals(dateNow)|| seconds < 28800){
                 todayObject.insertSport(todayObject.sportSec()+(int)seconds);
             } else {
@@ -143,11 +178,14 @@ public class MainActivity extends AppCompatActivity {
                 sRunning = false;
             }
 
-        }else if(sRunning){
+        }else if(sRunning){ /** TÄMÄ BOOLEAN TOTEUTUU JOS RUUTU SWITCH OLI PÄÄLLÄ POISTUESSA */
             screenSwitch.setChecked(true);
             Date exitTime = new Date(shpref.getLong("screenOnDate",0));
             long seconds = (timeNow.getTime()-exitTime.getTime())/1000;
 
+            /** JOS POISTUMIS PÄIVÄ OLI SAMA KUIN UUDELLEEN AVAUS PÄIVÄ TAI SIITÄ ON ALLE 8 TUNTIA (28800SEC) */
+            /** LAUSEKE LISÄÄ NYKYISELLE PÄIVÄLLE KULUNEEN AJAN, ELI JOS VUOROKAUSI ON KERENNYT VAIHTUA
+             * MUTTA AIKAERO ON ALLE 8 TUNTIA ASETETAAN KULUNUT AIKA NYKYISELLE PÄIVÄLLE*/
             if(dateExit.equals(dateNow)|| seconds < 28800){
                 todayObject.insertScreen(todayObject.screenSec()+(int)seconds);
             } else {
@@ -157,13 +195,29 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
+        /** LUO UUDET AJASTIMET */
         eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
         sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
 
+        /** LAITTAA AJASTIMEN PÄÄLLE SEN PERUSTEELLA OLIKO JOMPI KUMPI PÄÄLLÄ VIIMEKSI */
         if(eRunning)eCounter.run();
         else if(sRunning)sCounter.run();
+
+        /** NOLLATAAN TALLENNETTU "POISTUMIS" TILA */
+
+        SharedPreferences.Editor predit = shpref.edit();
+        predit.putBoolean("sportON",false);
+        predit.putBoolean("screenON",false);
+        predit.putString("exitDate", "0");
+
+        predit.putString("exitPackage", "0");
+        predit.putLong("sportOnDate",0);
+        predit.putLong("screenOnDate",0);
+
+        predit.apply();
     }
 
+    /** TALLENTAA AKTIVITEETIN TILAN ENNEN SEN SULKEUTUMISTA */
     public void saveExitState(){
         Log.d(LOGTAG,"saveExitState()");
 
@@ -195,13 +249,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStop(){
-        super.onStop();
-        Log.d(LOGTAG,"onStop()");
+    protected void onPause(){
+        super.onPause();
+        Log.d(LOGTAG,"onPause()");
         todayObject.insertSport(eCounter.getCurrent());
         todayObject.insertScreen(sCounter.getCurrent());
         Log.d(LOGTAG,"Counter values (sport, screen) "+eCounter.getCurrent()+", "+sCounter.getCurrent());
         mega.saveToday();
+    }
+
+    @Override
+    protected void onStop(){
+        super.onStop();
+        Log.d(LOGTAG,"onStop()");
         saveExitState();
     }
 

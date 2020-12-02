@@ -10,12 +10,14 @@ public class Counter {
     private Timer timer;
     private CustomGauge tv;
     private boolean firstRun = true;
+    private boolean isRunning;
 
     public Counter(int seconds,CustomGauge CG) {
         this.seconds = seconds;
         this.timer = new Timer();
         this.tv = CG;
         this.tv.setValue(this.seconds);
+        this.isRunning = false;
     }
 
     public int getCurrent() {
@@ -29,6 +31,7 @@ public class Counter {
     }
 
     public void run() {
+        isRunning = true;
         firstRun = true;
         timer = new Timer();
         this.timer.scheduleAtFixedRate(new TimerTask() {
@@ -46,6 +49,11 @@ public class Counter {
 
     public void stop() {
         this.timer.cancel();
+        isRunning = false;
         tv.setValue(this.seconds);
+    }
+
+    public boolean isRunning(){
+        return this.isRunning;
     }
 }
