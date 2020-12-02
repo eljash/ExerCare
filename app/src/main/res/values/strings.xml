@@ -24,4 +24,6 @@
     <string name="new_user_screen_time_goal">Minutes of screen time per day</string>
     <string name="new_user_submit">OK, let\'s start!</string>
     <string name="new_user_missing_values">Please fill the missing values.</string>
+    <string name="Enter_start_date">Aloitus päivämäärä pv/kk/v</string>
+    <string name="Enter_end_date">Lopetus päivämäärä pv/kk/v</string>
 </resources>
