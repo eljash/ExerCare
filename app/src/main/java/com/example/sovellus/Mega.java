@@ -61,7 +61,7 @@ public class Mega {
         Log.d(LOGTAG, "todayData()");
 
         String year = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.YEAR)),4);
-        String month = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.MONTH)),2);
+        String month = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.MONTH)+1),2);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         Log.d(LOGTAG,"checking if data package exists...");
@@ -182,7 +182,7 @@ public class Mega {
             this.SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             currentSavePackage = saveName;
             Log.d(LOGTAG,"Data package '"+saveName+"' loaded successfully! [OK]");
-            if(gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) == null){
+            if(gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) == null || ! (gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) instanceof ArrayList)){
                 return new ArrayList<>();
             }
             return gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
@@ -239,7 +239,12 @@ public class Mega {
             Log.d(LOGTAG,"creating new data package with name: "+packageName);
             SharedPreferences newPackage = activityContext.getSharedPreferences("saveData",Activity.MODE_PRIVATE);
             SharedPreferences.Editor newPackageEditor = newPackage.edit();
-            newPackageEditor.putString(packageName,"[]");
+
+            Gson gson = new Gson();
+            String json = gson.toJson(new ArrayList<dataOlio>());
+            Log.d(LOGTAG,"JSON format:");
+            Log.d(LOGTAG,json);
+            newPackageEditor.putString(packageName, json);
             newPackageEditor.apply();
             Log.d(LOGTAG,"new package created! [OK]");
         } else {
@@ -262,18 +267,35 @@ public class Mega {
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
         Log.d(LOGTAG,"insertData()");
+        Gson gson = new Gson();
         ArrayList<dataOlio> dataList;
         dataOlio insertDay;
+
         Log.d(LOGTAG,"inserting date year:"+v+"month: "+m+" day: "+d+" sport "+sport+" screet "+screen+" weight "+weight);
+
         v = SM.customDigit(v,4);
         m = SM.customDigit(m,2);
 
-        if(checkForDataPackage(v,m)){
-            dataList = loadData(v,m);
-        }else{
-            createDataPackage(v,m);
-            dataList = loadData(v,m);
+        dataList = loadData(v,m);
+
+        /**
+        if(loadData(v,m)!=null){
+            if(loadData(v,m).size() > 0){
+                dataList = loadData(v,m);
+            } else {
+                dataList = new ArrayList<>();
+            }
         }
+        if(dataList == null){
+            dataList = new ArrayList<>();
+        }
+         */
+
+        if(!(dataList instanceof ArrayList) || gson.toJson(dataList).equals("[]")){
+            createDataPackage(v,m);
+            dataList = new ArrayList<dataOlio>();
+        }
+        Log.d(LOGTAG,gson.toJson(dataList));
 
         insertDay = dayFromList(d,dataList);
 

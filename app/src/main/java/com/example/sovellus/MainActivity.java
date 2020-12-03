@@ -18,6 +18,8 @@ import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class MainActivity extends AppCompatActivity {
     private Mega mega;
+    private SuperMetodit SM;
+
     private static final String LOGTAG = "MainActivity.java";
     private boolean eRunning = false;
     private boolean sRunning = false;
@@ -38,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         this.mega = new Mega(this);
+        this.SM = new SuperMetodit();
     }
 
     @Override
@@ -252,6 +255,54 @@ public class MainActivity extends AppCompatActivity {
         }
 
         predit.apply();
+    }
+
+    public void createFakeData(View v){
+        mega.insertData("2020","01",1,696969,420420,6969666,true);
+        mega.insertData("2020","01",3,696969,420420,6969666,true);
+        mega.insertData("2020","01",5,696969,420420,6969666,true);
+        mega.insertData("2020","01",9,696969,420420,6969666,true);
+        mega.insertData("2020","01",10,696969,420420,6969666,true);
+        mega.insertData("2020","02",15,696969,420420,6969666,true);
+        mega.insertData("2020","02",17,696969,420420,6969666,true);
+        mega.insertData("2020","03",1,696969,420420,6969666,true);
+        mega.insertData("2020","03",2,696969,420420,6969666,true);
+        mega.insertData("2020","03",3,696969,420420,6969666,true);
+        mega.insertData("2020","04",4,696969,420420,6969666,true);
+        mega.insertData("2020","04",6,696969,420420,6969666,true);
+        mega.insertData("2020","04",10,696969,420420,6969666,true);
+
+        /**
+        int num = 100;
+        int vuosi = 2020;
+        int kuukausi = 6;
+        int paiva = 1;
+        for(int i = 0;i < 100;i++){
+            while(Math.round(Math.random()) != 1){
+                paiva++;
+                if(paiva > 31 ){
+                    paiva = 1;
+                    kuukausi++;
+                    if(kuukausi > 12){
+                        kuukausi = 1;
+                        vuosi++;
+                    }
+                }
+            }
+            if(paiva > 31 ){
+                paiva = 1;
+                kuukausi++;
+                if(kuukausi > 12){
+                    kuukausi = 1;
+                    vuosi++;
+                }
+            }
+            String vuo = SM.customDigit(Integer.toString(vuosi),4);
+            String kuu = SM.customDigit(Integer.toString(kuukausi),2);
+            mega.insertData(vuo,kuu,paiva,vuosi*paiva,vuosi*paiva*2,80+Math.random()*10,true);
+            paiva++;
+        }
+         */
     }
 
     @Override

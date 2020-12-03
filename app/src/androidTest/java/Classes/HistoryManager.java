@@ -27,7 +27,7 @@ public class HistoryManager {
         mega = new Mega(c);
     }
 
-    public int getDayCount(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
+    public ArrayList<dataOlio> getDayData(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
         this.sYear = startYear;
         this.sMonth = startMonth;
         this.sDay = startDay;
@@ -59,7 +59,7 @@ public class HistoryManager {
         this.eDay = tmp;
     }
 
-    private int calculateDays(){
+    private ArrayList<dataOlio> calculateDays(){
         daysCombined = 0;
 
         int maxDays = 1000;
@@ -71,6 +71,8 @@ public class HistoryManager {
 
         String stringYear = SM.customDigit(Integer.toString(this.sYear),4);
         String stringMonth =  SM.customDigit(Integer.toString(this.sMonth),4);
+
+        String packageName = SM.createPackageName(stringYear,stringMonth);
 
         ArrayList<dataOlio> lista = mega.loadData(stringYear,stringMonth);
 
@@ -85,6 +87,7 @@ public class HistoryManager {
                 stringYear = SM.customDigit(Integer.toString(this.sYear),4);
                 stringMonth =  SM.customDigit(Integer.toString(this.sMonth),4);
                 lista = mega.loadData(stringYear,stringMonth);
+                packageName = SM.createPackageName(stringYear,stringMonth);
                 tmpD = 1;
             }
 
@@ -99,6 +102,10 @@ public class HistoryManager {
                 tmpM++;
             } else {
                 if(mega.dayFromList(tmpD,lista) != null){
+                    if(!dataPackages.contains(packageName)){
+                        dataPackages.add(packageName);
+                    }
+                    lista.add(mega.dayFromList(tmpD,lista));
                     Log.d(LOGTAG,"found: "+tmpD+"."+tmpM+"."+tmpY);
                     daysCombined++;
                 }
@@ -110,7 +117,7 @@ public class HistoryManager {
 
         Log.d(LOGTAG,"days from time frame: "+daysCombined);
 
-        return daysCombined;
+        return lista;
 
     }
 }
