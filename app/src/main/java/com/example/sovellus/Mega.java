@@ -313,14 +313,14 @@ public class Mega {
 
         if(insertDay == null){
             insertDay = new dataOlio(packageName,v,m);
-            insertDay.changeDay(d);
-            insertDay.insertSport(sport);
-            insertDay.insertScreen(screen);
-            insertDay.insertWeight(weight);
-            insertDay.insertWeightBoolean(day);
-            dataList.add(insertDay);
-            savePackage(v,m,dataList);
         }
+        insertDay.changeDay(d);
+        insertDay.insertSport(sport);
+        insertDay.insertScreen(screen);
+        insertDay.insertWeight(weight);
+        insertDay.insertWeightBoolean(day);
+        dataList.add(insertDay);
+        savePackage(v,m,dataList);
 
     }
 }
