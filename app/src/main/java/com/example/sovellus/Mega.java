@@ -234,6 +234,29 @@ public class Mega {
         return null;
     }
 
+    private int listIndex(int d,ArrayList<dataOlio> objectList){
+        Log.d(LOGTAG,"dayFromList()");
+        Log.d(LOGTAG, "Searching object with day: "+d);
+        if(objectList != null){
+            int size = objectList.size();
+            Log.d(LOGTAG,"object list size: "+size);
+            if (size > 0) {
+                for (int i = size - 1; i >= 0; i--) {
+                    if (objectList.get(i).getDay() == d) {
+                        Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
+                        return i;
+                    }
+                }
+            }
+        } else {
+            Log.d(LOGTAG,"object list empty: value = null [FAILED]");
+            return 0;
+        }
+
+        Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
+        return 0;
+    }
+
     /** LUO UUDEN TIEDOSTO PAKETIN */
     private void createDataPackage(String v, String m){
         Log.d(LOGTAG,"createDataPackage()");
@@ -304,13 +327,12 @@ public class Mega {
         insertDay = dayFromList(d,dataList);
 
         if(insertDay != null){
+            int i = listIndex(d,dataList);
             Log.d(LOGTAG,"inserting values to arraylist");
-            insertDay = dayFromList(d,dataList);
-            insertDay.insertSport(sport);
-            insertDay.insertScreen(screen);
-            insertDay.insertWeight(weight);
-            insertDay.insertWeightBoolean(day);
-            savePackage(v,m,dataList);
+            dataList.get(i).insertSport(sport);
+            dataList.get(i).insertScreen(screen);
+            dataList.get(i).insertWeight(weight);
+            dataList.get(i).insertWeightBoolean(day);
         } else {
             Log.d(LOGTAG,"creating new day to list and adding values [OK]");
             insertDay = new dataOlio(SM.createPackageName(v,m),v,m);
@@ -320,7 +342,8 @@ public class Mega {
             insertDay.insertWeight(weight);
             insertDay.insertWeightBoolean(day);
             dataList.add(insertDay);
-            savePackage(v,m,dataList);
         }
+        savePackage(v,m,dataList);
+        saveDataPackage();
     }
 }
