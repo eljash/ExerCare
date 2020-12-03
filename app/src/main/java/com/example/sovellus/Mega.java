@@ -128,6 +128,7 @@ public class Mega {
 
     /** TALLENNA TIETTY LISTA TIETTYYN DATA PAKETTIIN */
     private void savePackage(String v, String m, ArrayList<dataOlio> dataList){
+        Log.d(LOGTAG,"-------------------------------------------------------------");
         Log.d(LOGTAG,"savePackage()");
         v = SM.customDigit(v,4);
         m = SM.customDigit(m, 2);
@@ -181,8 +182,10 @@ public class Mega {
         if(!json.equals("Empty")){
             this.SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             currentSavePackage = saveName;
+            SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             Log.d(LOGTAG,"Data package '"+saveName+"' loaded successfully! [OK]");
             if(gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) == null || ! (gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) instanceof ArrayList)){
+                SaveList = new ArrayList<>();
                 return new ArrayList<>();
             }
             return gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
@@ -231,6 +234,29 @@ public class Mega {
         return null;
     }
 
+    private int listIndex(int d,ArrayList<dataOlio> objectList){
+        Log.d(LOGTAG,"dayFromList()");
+        Log.d(LOGTAG, "Searching object with day: "+d);
+        if(objectList != null){
+            int size = objectList.size();
+            Log.d(LOGTAG,"object list size: "+size);
+            if (size > 0) {
+                for (int i = size - 1; i >= 0; i--) {
+                    if (objectList.get(i).getDay() == d) {
+                        Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
+                        return i;
+                    }
+                }
+            }
+        } else {
+            Log.d(LOGTAG,"object list empty: value = null [FAILED]");
+            return 0;
+        }
+
+        Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
+        return 0;
+    }
+
     /** LUO UUDEN TIEDOSTO PAKETIN */
     private void createDataPackage(String v, String m){
         Log.d(LOGTAG,"createDataPackage()");
@@ -266,8 +292,8 @@ public class Mega {
 
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
+        Log.d(LOGTAG,"-------------------------------------------------------");
         Log.d(LOGTAG,"insertData()");
-        Gson gson = new Gson();
         ArrayList<dataOlio> dataList;
         dataOlio insertDay;
 
@@ -276,47 +302,25 @@ public class Mega {
         v = SM.customDigit(v,4);
         m = SM.customDigit(m,2);
 
-        dataList = loadData(v,m);
-
-        /**
-        if(loadData(v,m)!=null){
-            if(loadData(v,m).size() > 0){
-                dataList = loadData(v,m);
-            } else {
-                dataList = new ArrayList<>();
-            }
-        }
-        if(dataList == null){
-            dataList = new ArrayList<>();
-        }
-         */
-
-        if(!(dataList instanceof ArrayList) || gson.toJson(dataList).equals("[]")){
+        if(!checkForDataPackage(v,m)){
             createDataPackage(v,m);
-            dataList = new ArrayList<dataOlio>();
         }
-        Log.d(LOGTAG,gson.toJson(dataList));
+
+        dataList = getSavedData(v,m);
+        String packageName = SM.createPackageName(v,m);
 
         insertDay = dayFromList(d,dataList);
 
-        if(insertDay != null){
-            Log.d(LOGTAG,"inserting values to arraylist");
-            insertDay = dayFromList(d,dataList);
-            insertDay.insertSport(sport);
-            insertDay.insertScreen(screen);
-            insertDay.insertWeight(weight);
-            insertDay.insertWeightBoolean(day);
-            savePackage(v,m,dataList);
-        } else {
-            Log.d(LOGTAG,"creating new day to list and adding values [OK]");
-            insertDay = new dataOlio(SM.createPackageName(v,m),v,m);
-            insertDay.changeDay(d);
-            insertDay.insertSport(sport);
-            insertDay.insertScreen(screen);
-            insertDay.insertWeight(weight);
-            insertDay.insertWeightBoolean(day);
-            dataList.add(insertDay);
-            savePackage(v,m,dataList);
+        if(insertDay == null){
+            insertDay = new dataOlio(packageName,v,m);
         }
+        insertDay.changeDay(d);
+        insertDay.insertSport(sport);
+        insertDay.insertScreen(screen);
+        insertDay.insertWeight(weight);
+        insertDay.insertWeightBoolean(day);
+        dataList.add(insertDay);
+        savePackage(v,m,dataList);
+
     }
 }
