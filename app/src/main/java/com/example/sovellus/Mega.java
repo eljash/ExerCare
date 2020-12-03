@@ -128,6 +128,7 @@ public class Mega {
 
     /** TALLENNA TIETTY LISTA TIETTYYN DATA PAKETTIIN */
     private void savePackage(String v, String m, ArrayList<dataOlio> dataList){
+        Log.d(LOGTAG,"-------------------------------------------------------------");
         Log.d(LOGTAG,"savePackage()");
         v = SM.customDigit(v,4);
         m = SM.customDigit(m, 2);
@@ -181,8 +182,10 @@ public class Mega {
         if(!json.equals("Empty")){
             this.SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             currentSavePackage = saveName;
+            SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             Log.d(LOGTAG,"Data package '"+saveName+"' loaded successfully! [OK]");
             if(gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) == null || ! (gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) instanceof ArrayList)){
+                SaveList = new ArrayList<>();
                 return new ArrayList<>();
             }
             return gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
@@ -266,6 +269,7 @@ public class Mega {
 
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
+        Log.d(LOGTAG,"-------------------------------------------------------");
         Log.d(LOGTAG,"insertData()");
         Gson gson = new Gson();
         ArrayList<dataOlio> dataList;
