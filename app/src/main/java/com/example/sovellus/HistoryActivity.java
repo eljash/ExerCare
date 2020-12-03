@@ -94,14 +94,18 @@ public class HistoryActivity extends AppCompatActivity {
         GraphView graph = findViewById(R.id.Graph);
         graph.removeAllSeries();
         painoSarja = new BarGraphSeries<>();
+        urheiluSarja = new LineGraphSeries<>();
 
 
-        int num = 31;
+        int num = 41;
         for(int i = 0; i < num; i++){
-            double y = 60 + Math.random()*10;
+            double y = 20 + Math.random()*10;
+            double y2 = 20 + Math.random()*10;
             painoSarja.appendData(new DataPoint(i,y), true , 100);
+            urheiluSarja.appendData(new DataPoint(i,y2), true, 100);
         }
         graph.addSeries(painoSarja);
+        graph.addSeries(urheiluSarja);
         graph.getSecondScale().addSeries(painoSarja);
         graph.getSecondScale().setMinY(0);
         graph.getSecondScale().setMaxY(80);
