@@ -25,6 +25,7 @@ public class HistoryManager {
     public HistoryManager(Context c){
         this.context = c;
         mega = new Mega(c);
+        SM = new SuperMetodit();
     }
 
     public ArrayList<dataOlio> getDayData(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
