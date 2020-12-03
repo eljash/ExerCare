@@ -95,11 +95,15 @@ public class HistoryActivity extends AppCompatActivity {
         graph.removeAllSeries();
         painoSarja = new BarGraphSeries<>();
 
+
         int num = 31;
         for(int i = 0; i < num; i++){
             double y = 60 + Math.random()*10;
             painoSarja.appendData(new DataPoint(i,y), true , 100);
         }
         graph.addSeries(painoSarja);
+        graph.getSecondScale().addSeries(painoSarja);
+        graph.getSecondScale().setMinY(0);
+        graph.getSecondScale().setMaxY(80);
     }
 }
