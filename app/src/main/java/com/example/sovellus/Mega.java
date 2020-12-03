@@ -344,6 +344,5 @@ public class Mega {
             dataList.add(insertDay);
         }
         savePackage(v,m,dataList);
-        saveDataPackage();
     }
 }
