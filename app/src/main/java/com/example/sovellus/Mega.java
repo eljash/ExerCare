@@ -294,7 +294,6 @@ public class Mega {
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
         Log.d(LOGTAG,"-------------------------------------------------------");
         Log.d(LOGTAG,"insertData()");
-        Gson gson = new Gson();
         ArrayList<dataOlio> dataList;
         dataOlio insertDay;
 
@@ -303,47 +302,25 @@ public class Mega {
         v = SM.customDigit(v,4);
         m = SM.customDigit(m,2);
 
-        dataList = loadData(v,m);
-
-        /**
-        if(loadData(v,m)!=null){
-            if(loadData(v,m).size() > 0){
-                dataList = loadData(v,m);
-            } else {
-                dataList = new ArrayList<>();
-            }
-        }
-        if(dataList == null){
-            dataList = new ArrayList<>();
-        }
-         */
-
-        if(!(dataList instanceof ArrayList) || gson.toJson(dataList).equals("[]")){
+        if(!checkForDataPackage(v,m)){
             createDataPackage(v,m);
-            dataList = new ArrayList<dataOlio>();
         }
-        Log.d(LOGTAG,gson.toJson(dataList));
+
+        dataList = getSavedData(v,m);
+        String packageName = SM.createPackageName(v,m);
 
         insertDay = dayFromList(d,dataList);
 
-        if(insertDay != null){
-            int i = listIndex(d,dataList);
-            Log.d(LOGTAG,"inserting values to arraylist");
-            dataList.get(i).insertSport(sport);
-            dataList.get(i).insertScreen(screen);
-            dataList.get(i).insertWeight(weight);
-            dataList.get(i).insertWeightBoolean(day);
-        } else {
-            Log.d(LOGTAG,"creating new day to list and adding values [OK]");
-            insertDay = new dataOlio(SM.createPackageName(v,m),v,m);
-            insertDay.changeDay(d);
-            insertDay.insertSport(sport);
-            insertDay.insertScreen(screen);
-            insertDay.insertWeight(weight);
-            insertDay.insertWeightBoolean(day);
-            dataList.add(insertDay);
+        if(insertDay == null){
+            insertDay = new dataOlio(packageName,v,m);
         }
+        insertDay.changeDay(d);
+        insertDay.insertSport(sport);
+        insertDay.insertScreen(screen);
+        insertDay.insertWeight(weight);
+        insertDay.insertWeightBoolean(day);
+        dataList.add(insertDay);
         savePackage(v,m,dataList);
-        saveDataPackage();
+
     }
 }
