@@ -27,4 +27,6 @@
     <string name="Enter_start_date">Aloitus päivämäärä pv/kk/v</string>
     <string name="Enter_end_date">Lopetus päivämäärä pv/kk/v</string>
     <string name="empty"></string>
+    <string name="new_user_birthday">Birthday</string>
+    <string name="new_user_weight_goal">Your weight goal</string>
 </resources>

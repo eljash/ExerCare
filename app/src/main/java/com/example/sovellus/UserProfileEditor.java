@@ -61,6 +61,9 @@ public class UserProfileEditor {
         editSaving.putLong("weight_goal",Double.doubleToLongBits(user.weightGoal()));
         editSaving.putInt("sport_time_goal",user.sportTimeGoal());
         editSaving.putInt("screen_time_goal",user.screenTimeGoal());
+        editSaving.putInt("birth_year",user.year());
+        editSaving.putInt("birth_month",user.month());
+        editSaving.putInt("birth_day",user.day());
         editSaving.putLong("creation_date",user.date().getTime());
         editSaving.apply();
     }

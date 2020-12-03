@@ -27,12 +27,32 @@
         android:hint="@string/new_user_name"
         android:inputType="text"
         android:text="@string/empty"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
         app:layout_constraintVertical_bias="0.100000024" />
 
+
+    <EditText
+        android:id="@+id/new_user_birthday"
+        android:layout_width="290dp"
+        android:layout_height="42dp"
+        android:autofillHints=""
+        android:digits="0123456789."
+        android:hint="@string/new_user_birthday"
+        android:inputType="text"
+        android:text="@string/empty"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.191" />
 
     <EditText
         android:id="@+id/new_user_weight"
@@ -43,11 +63,32 @@
         android:hint="@string/new_user_weight"
         android:inputType="numberDecimal"
         android:text="@string/empty"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.19" />
+        app:layout_constraintVertical_bias="0.285" />
+
+    <EditText
+        android:id="@+id/new_user_weight_goal"
+        android:layout_width="290dp"
+        android:layout_height="42dp"
+        android:autofillHints=""
+        android:digits="0123456789."
+        android:hint="@string/new_user_weight_goal"
+        android:inputType="numberDecimal"
+        android:text="@string/empty"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintVertical_bias="0.38" />
 
     <EditText
         android:id="@+id/new_user_sport_goal"
@@ -58,11 +99,14 @@
         android:hint="@string/new_user_sport_goal"
         android:inputType="number"
         android:text="@string/empty"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.29000002" />
+        app:layout_constraintVertical_bias="0.470" />
 
     <EditText
         android:id="@+id/new_user_screen_time_goal"
@@ -73,11 +117,14 @@
         android:hint="@string/new_user_screen_time_goal"
         android:inputType="number"
         android:text="@string/empty"
+        android:imeOptions="actionDone"
+        android:singleLine="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView"
-        app:layout_constraintVertical_bias="0.39" />
+        app:layout_constraintVertical_bias="0.565" />
 
     <Button
         android:id="@+id/button2"
@@ -89,6 +136,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_user_screen_time_goal"
-        app:layout_constraintVertical_bias="0.23000002" />
+        app:layout_constraintVertical_bias="0.22000003" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
