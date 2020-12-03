@@ -20,12 +20,13 @@
 
     <EditText
         android:id="@+id/new_user_name"
-        android:digits="0123456789qwertzuiopåasdfghjklöäyxcvbnmQWERTYUIOPÅASDFGHJKLÖÄZXCVBNM "
         android:layout_width="290dp"
         android:layout_height="42dp"
         android:autofillHints=""
+        android:digits="0123456789qwertzuiopåasdfghjklöäyxcvbnmQWERTYUIOPÅASDFGHJKLÖÄZXCVBNM "
         android:hint="@string/new_user_name"
         android:inputType="text"
+        android:text="@string/empty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,12 +36,13 @@
 
     <EditText
         android:id="@+id/new_user_weight"
-        android:digits="0123456789."
         android:layout_width="290dp"
         android:layout_height="42dp"
         android:autofillHints=""
+        android:digits="0123456789."
         android:hint="@string/new_user_weight"
         android:inputType="numberDecimal"
+        android:text="@string/empty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,12 +51,13 @@
 
     <EditText
         android:id="@+id/new_user_sport_goal"
-        android:digits="0123456789"
         android:layout_width="290dp"
         android:layout_height="42dp"
         android:autofillHints=""
+        android:digits="0123456789"
         android:hint="@string/new_user_sport_goal"
         android:inputType="number"
+        android:text="@string/empty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -63,12 +66,13 @@
 
     <EditText
         android:id="@+id/new_user_screen_time_goal"
-        android:digits="0123456789"
         android:layout_width="290dp"
         android:layout_height="42dp"
         android:autofillHints=""
+        android:digits="0123456789"
         android:hint="@string/new_user_screen_time_goal"
         android:inputType="number"
+        android:text="@string/empty"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -86,18 +90,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/new_user_screen_time_goal"
         app:layout_constraintVertical_bias="0.23000002" />
-
-    <TextView
-        android:id="@+id/errorMessage"
-        android:layout_width="302dp"
-        android:layout_height="53dp"
-        android:textSize="18sp"
-        android:text=""
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.54"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
-        app:layout_constraintVertical_bias="0.29000002" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

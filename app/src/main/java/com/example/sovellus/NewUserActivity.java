@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -58,7 +59,7 @@ public class NewUserActivity extends AppCompatActivity {
             public void afterTextChanged(Editable s)  {
                 String weight = weightET.getText().toString();
                 if (weight.length() <= 0) {
-                    weightET.setError("Enter your weight fat-ass");
+                    weightET.setError("Enter your weight");
                 } else {
                     weightET.setError(null);
                 }
@@ -109,32 +110,35 @@ public class NewUserActivity extends AppCompatActivity {
     }
 
     public void submitNewUserInfo(View v) {
+
         EditText nameET = findViewById(R.id.new_user_name);
         String name = nameET.getText().toString();
 
         EditText weightET = findViewById(R.id.new_user_weight);
         String weight = weightET.getText().toString();
-        double doubleWeight = Double.parseDouble(weight);
 
         EditText sportGoalET = findViewById(R.id.new_user_sport_goal);
         String sportGoal = sportGoalET.getText().toString();
-        int intSportGoal = Integer.parseInt(sportGoal);
 
         EditText screenGoalET = findViewById(R.id.new_user_screen_time_goal);
         String screenGoal = screenGoalET.getText().toString();
-        int intScreenGoal = Integer.parseInt(screenGoal);
+
+        String doubleRegex = "[0-9, .]";
+        String regex = "[0-9]";
 
         /** TARKISTETAAN, ETTÄ KAIKKI KENTÄT TÄYTETTY ENNENKUIN SIIRRYTÄÄN ETEENPÄIN. MUUNNETAAN MINUUTIT SEKUNNEIKSI */
 
-        if (!(name.equals("") || weight.equals("") || sportGoal.equals("") || screenGoal.equals(""))) {
+        if (!(name.equals("")) && (weight.matches(doubleRegex)) && (sportGoal.matches(regex) && screenGoal.matches(regex))) {
+            double doubleWeight = Double.parseDouble(weight);
+            int intSportGoal = Integer.parseInt(sportGoal);
+            int intScreenGoal = Integer.parseInt(screenGoal);
             user = new User(name, doubleWeight, intSportGoal * 60, intScreenGoal * 60);
             UserProfileEditor upe = new UserProfileEditor(this);
             upe.saveProfile(user);
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
-            TextView errorTV = findViewById(R.id.errorMessage);
-            errorTV.setText(R.string.new_user_missing_values);
+
         }
     }
 }
