@@ -64,29 +64,29 @@ public class Mega {
         String month = SM.customDigit(Integer.toString(Calendar.getInstance().get(Calendar.MONTH)+1),2);
         int day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
-        Log.d(LOGTAG,"checking if data package exists...");
+        //Log.d(LOGTAG,"checking if data package exists...");
         if(!checkForDataPackage(year,month)){
-            Log.d(LOGTAG,"data package not found. Creating.");
+            //Log.d(LOGTAG,"data package not found. Creating.");
             createDataPackage(year,month);
         }
 
         thisMonthList = getSavedData(year,month);
         currentDate = SM.createPackageName(year,month);
-        Log.d(LOGTAG,"this months data package opened");
+        //Log.d(LOGTAG,"this months data package opened");
 
         today = dayFromList(day,thisMonthList);
         if(today == null){
-            Log.d(LOGTAG, "no data for this day");
+            //Log.d(LOGTAG, "no data for this day");
             today = new dataOlio(currentDate,year,month);
             if(thisMonthList.size() != 0){
                 today.insertWeight(thisMonthList.get(thisMonthList.size()-1).returnWeight());
-                Log.d(LOGTAG, "adding new day to array with weight value [OK]");
+                //Log.d(LOGTAG, "adding new day to array with weight value [OK]");
             }
             today.changeDay(day);
             thisMonthList.add(today);
             savePackage(year,month,thisMonthList);
         } else {
-            Log.d(LOGTAG, "this day has data");
+            //Log.d(LOGTAG, "this day has data");
         }
     }
 
@@ -107,8 +107,8 @@ public class Mega {
         SharedPreferences.Editor dataEditor = dataSaving.edit();
         Gson gson = new Gson();
         String json = gson.toJson(SaveList);
-        Log.d(LOGTAG,"JSON format:");
-        Log.d(LOGTAG,json);
+        //Log.d(LOGTAG,"JSON format:");
+        //Log.d(LOGTAG,json);
         dataEditor.putString(currentSavePackage, json);
         dataEditor.apply();
     }
@@ -120,15 +120,14 @@ public class Mega {
         SharedPreferences.Editor dataEditor = dataSaving.edit();
         Gson gson = new Gson();
         String json = gson.toJson(thisMonthList);
-        Log.d(LOGTAG,"Json format:");
-        Log.d(LOGTAG,json);
+        //Log.d(LOGTAG,"Json format:");
+        //Log.d(LOGTAG,json);
         dataEditor.putString(currentDate, json);
         dataEditor.apply();
     }
 
     /** TALLENNA TIETTY LISTA TIETTYYN DATA PAKETTIIN */
     private void savePackage(String v, String m, ArrayList<dataOlio> dataList){
-        Log.d(LOGTAG,"-------------------------------------------------------------");
         Log.d(LOGTAG,"savePackage()");
         v = SM.customDigit(v,4);
         m = SM.customDigit(m, 2);
@@ -137,8 +136,8 @@ public class Mega {
         SharedPreferences.Editor dataEditor = dataSaving.edit();
         Gson gson = new Gson();
         String json = gson.toJson(dataList);
-        Log.d(LOGTAG,"JSON format:");
-        Log.d(LOGTAG,json);
+        //Log.d(LOGTAG,"JSON format:");
+        //Log.d(LOGTAG,json);
         dataEditor.putString(saveName, json);
         dataEditor.apply();
     }
@@ -152,22 +151,22 @@ public class Mega {
 
     public ArrayList<dataOlio> loadData(String year, String month){
         Log.d(LOGTAG,"loadData() with parameters");
-        Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
+        //Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
         if(year.matches("[0-9]+")&&month.matches("[0-9]+")){
-            Log.d(LOGTAG,"all Strings have only digits[OK]");
+            //Log.d(LOGTAG,"all Strings have only digits[OK]");
             if(year.length() == 4 && month.length() == 2){
-                Log.d(LOGTAG,"every parameter has correct length [OK]");
+                //Log.d(LOGTAG,"every parameter has correct length [OK]");
             } else {
-                Log.d(LOGTAG,"not every parameter has the correct length [CONVERTING]");
+                //Log.d(LOGTAG,"not every parameter has the correct length [CONVERTING]");
                 year = SM.customDigit(year,4);
                 month = SM.customDigit(month,2);
-                Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
+                //Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
             }
             saveDataPackage();
-            getSavedData(year,month);
+            return getSavedData(year,month);
         } else {
-            Log.d(LOGTAG,"some of the values have characters [FAILED]");
-            Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
+            //Log.d(LOGTAG,"some of the values have characters [FAILED]");
+            //Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
         }
         return null;
     }
@@ -178,19 +177,19 @@ public class Mega {
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
         Gson gson = new Gson();
         String json = dataSaving.getString(saveName, "Empty");
-        Log.d(LOGTAG,json);
+        //Log.d(LOGTAG,json);
         if(!json.equals("Empty")){
             this.SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
             currentSavePackage = saveName;
             SaveList = gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
-            Log.d(LOGTAG,"Data package '"+saveName+"' loaded successfully! [OK]");
+            //Log.d(LOGTAG,"Data package '"+saveName+"' loaded successfully! [OK]");
             if(gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) == null || ! (gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType()) instanceof ArrayList)){
                 SaveList = new ArrayList<>();
                 return new ArrayList<>();
             }
             return gson.fromJson(json, new TypeToken<ArrayList<dataOlio>>(){}.getType());
         } else {
-            Log.d(LOGTAG,"no data package with name: "+saveName+" [FAILED]");
+            //Log.d(LOGTAG,"no data package with name: "+saveName+" [FAILED]");
         }
         return null;
     }
@@ -202,10 +201,10 @@ public class Mega {
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
         String json = dataSaving.getString(saveName, "Empty");
         if(!json.equals("Empty")){
-            Log.d(LOGTAG,"Data package '"+saveName+"' found! [OK]");
+            //Log.d(LOGTAG,"Data package '"+saveName+"' found! [OK]");
             return true;
         } else {
-            Log.d(LOGTAG,"no data package with name: "+saveName);
+            //Log.d(LOGTAG,"no data package with name: "+saveName);
         }
         return false;
     }
@@ -213,47 +212,47 @@ public class Mega {
     /** ETSII LISTASTA HALUTUN PÄIVÄN */
     public dataOlio dayFromList(int d,ArrayList<dataOlio> objectList){
         Log.d(LOGTAG,"dayFromList()");
-        Log.d(LOGTAG, "Searching object with day: "+d);
+        //Log.d(LOGTAG, "Searching object with day: "+d);
         if(objectList != null){
             int size = objectList.size();
-            Log.d(LOGTAG,"object list size: "+size);
+            //Log.d(LOGTAG,"object list size: "+size);
             if (size > 0) {
-                for (int i = size - 1; i >= 0; i--) {
+                for (int i = (size - 1); i >= 0; i--) {
                     if (objectList.get(i).getDay() == d) {
-                        Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
+                        //Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
                         return objectList.get(i);
                     }
                 }
             }
         } else {
-            Log.d(LOGTAG,"object list empty: value = null [FAILED]");
+            //Log.d(LOGTAG,"object list empty: value = null [FAILED]");
             return null;
         }
 
-        Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
+        //Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
         return null;
     }
 
     private int listIndex(int d,ArrayList<dataOlio> objectList){
         Log.d(LOGTAG,"dayFromList()");
-        Log.d(LOGTAG, "Searching object with day: "+d);
+        //Log.d(LOGTAG, "Searching object with day: "+d);
         if(objectList != null){
             int size = objectList.size();
-            Log.d(LOGTAG,"object list size: "+size);
+            //Log.d(LOGTAG,"object list size: "+size);
             if (size > 0) {
                 for (int i = size - 1; i >= 0; i--) {
                     if (objectList.get(i).getDay() == d) {
-                        Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
+                        //Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
                         return i;
                     }
                 }
             }
         } else {
-            Log.d(LOGTAG,"object list empty: value = null [FAILED]");
+            //Log.d(LOGTAG,"object list empty: value = null [FAILED]");
             return 0;
         }
 
-        Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
+        //Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
         return 0;
     }
 
@@ -262,19 +261,19 @@ public class Mega {
         Log.d(LOGTAG,"createDataPackage()");
         if(!checkForDataPackage(v,m)){
             String packageName = SM.createPackageName(v,m);
-            Log.d(LOGTAG,"creating new data package with name: "+packageName);
+            //Log.d(LOGTAG,"creating new data package with name: "+packageName);
             SharedPreferences newPackage = activityContext.getSharedPreferences("saveData",Activity.MODE_PRIVATE);
             SharedPreferences.Editor newPackageEditor = newPackage.edit();
 
             Gson gson = new Gson();
             String json = gson.toJson(new ArrayList<dataOlio>());
-            Log.d(LOGTAG,"JSON format:");
-            Log.d(LOGTAG,json);
+            //Log.d(LOGTAG,"JSON format:");
+            //Log.d(LOGTAG,json);
             newPackageEditor.putString(packageName, json);
             newPackageEditor.apply();
-            Log.d(LOGTAG,"new package created! [OK]");
+            //Log.d(LOGTAG,"new package created! [OK]");
         } else {
-            Log.d(LOGTAG,"data package with year: "+v+" and month: "+m+" already exists! [FAILED]");
+            //Log.d(LOGTAG,"data package with year: "+v+" and month: "+m+" already exists! [FAILED]");
         }
     }
 
@@ -292,12 +291,11 @@ public class Mega {
 
     /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
-        Log.d(LOGTAG,"-------------------------------------------------------");
         Log.d(LOGTAG,"insertData()");
         ArrayList<dataOlio> dataList;
         dataOlio insertDay;
 
-        Log.d(LOGTAG,"inserting date year:"+v+"month: "+m+" day: "+d+" sport "+sport+" screet "+screen+" weight "+weight);
+        //Log.d(LOGTAG,"inserting date year:"+v+"month: "+m+" day: "+d+" sport "+sport+" screet "+screen+" weight "+weight);
 
         v = SM.customDigit(v,4);
         m = SM.customDigit(m,2);

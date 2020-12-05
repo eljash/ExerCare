@@ -258,19 +258,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void createFakeData(View v){
-        mega.insertData("2020","01",1,696969,420420,6969666,true);
-        mega.insertData("2020","01",3,696969,420420,6969666,true);
-        mega.insertData("2020","01",5,696969,420420,6969666,true);
-        mega.insertData("2020","01",9,696969,420420,6969666,true);
-        mega.insertData("2020","01",10,696969,420420,6969666,true);
-        mega.insertData("2020","02",15,696969,420420,6969666,true);
-        mega.insertData("2020","02",17,696969,420420,6969666,true);
-        mega.insertData("2020","03",1,696969,420420,6969666,true);
-        mega.insertData("2020","03",2,696969,420420,6969666,true);
-        mega.insertData("2020","03",3,696969,420420,6969666,true);
-        mega.insertData("2020","04",4,696969,420420,6969666,true);
-        mega.insertData("2020","04",6,696969,420420,6969666,true);
-        mega.insertData("2020","04",10,696969,420420,6969666,true);
+        mega.insertData("2020","01",1,696969,420420,60,true);
+        mega.insertData("2020","01",3,696969,420420,60,true);
+        mega.insertData("2020","01",5,696969,420420,60,true);
+        mega.insertData("2020","01",9,696969,420420,60,true);
+        mega.insertData("2020","01",10,696969,420420,60,true);
+        mega.insertData("2020","02",15,696969,420420,60,true);
+        mega.insertData("2020","02",17,696969,420420,60,true);
+        mega.insertData("2020","03",1,696969,420420,60,true);
+        mega.insertData("2020","03",2,696969,420420,60,true);
+        mega.insertData("2020","03",3,696969,420420,60,true);
+        mega.insertData("2020","04",4,696969,420420,60,true);
+        mega.insertData("2020","04",6,696969,420420,60,true);
+        mega.insertData("2020","04",10,696969,420420,60,true);
 
         /**
         int num = 100;

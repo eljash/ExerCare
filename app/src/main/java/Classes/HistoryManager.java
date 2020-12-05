@@ -6,6 +6,7 @@ import android.util.Log;
 import com.example.sovellus.Mega;
 import com.example.sovellus.SuperMetodit;
 import com.example.sovellus.dataOlio;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 
@@ -71,13 +72,43 @@ public class HistoryManager {
         int tmpY=this.sYear, tmpM=this.sMonth, tmpD=sDay;
 
         String stringYear = SM.customDigit(Integer.toString(this.sYear),4);
-        String stringMonth =  SM.customDigit(Integer.toString(this.sMonth),4);
+        String stringMonth =  SM.customDigit(Integer.toString(this.sMonth),2);
 
-        String packageName = SM.createPackageName(stringYear,stringMonth);
+        String packageName;
 
-        ArrayList<dataOlio> lista = mega.loadData(stringYear,stringMonth);
+        ArrayList<dataOlio> lista;
+        ArrayList<dataOlio> returnList = new ArrayList<>();
 
         while((tmpY <= this.eYear && tmpM <= this.eMonth)&&daySearched <= maxDays){
+
+            if(tmpY >= this.eYear && tmpM >= this.eMonth && tmpD >= eDay){
+                break;
+            }
+
+            packageName = SM.createPackageName(stringYear,stringMonth);
+            lista = mega.loadData(stringYear,stringMonth);
+            if(lista!=null){
+                int x;
+                if(tmpM == eMonth){
+                    x = eDay;
+                } else {
+                    x = 31;
+                }
+                while(tmpD<=x){
+                    Log.d(LOGTAG,"searching for date: "+tmpD+"."+tmpM+"."+tmpY);
+                    if(mega.dayFromList(tmpD,lista) != null){
+                        Log.d(LOGTAG,"day found!");
+                        if(!dataPackages.contains(packageName)){
+                            dataPackages.add(packageName);
+                        }
+                        returnList.add(mega.dayFromList(tmpD,lista));
+                        Log.d(LOGTAG,"found: "+tmpD+"."+tmpM+"."+tmpY);
+                        daysCombined++;
+                    }
+                    daySearched++;
+                    tmpD++;
+                }
+            }
 
             if(tmpD > 31){
                 tmpM++;
@@ -85,40 +116,32 @@ public class HistoryManager {
                     tmpY++;
                     tmpM = 1;
                 }
-                stringYear = SM.customDigit(Integer.toString(this.sYear),4);
-                stringMonth =  SM.customDigit(Integer.toString(this.sMonth),4);
-                lista = mega.loadData(stringYear,stringMonth);
-                packageName = SM.createPackageName(stringYear,stringMonth);
+                stringYear = SM.customDigit(Integer.toString(tmpY),4);
+                stringMonth =  SM.customDigit(Integer.toString(tmpM),2);
                 tmpD = 1;
-            }
-
-            if(tmpY == this.eYear && tmpM == this.eMonth && tmpD > this.eDay){
-                Log.d(LOGTAG,"days searched: "+daySearched);
-                break;
-            }
-
-            Log.d(LOGTAG,"searching for date: "+tmpD+"."+tmpM+"."+tmpY);
-
-            if(lista == null || lista.size() < 1){
+            } else if (lista == null || lista.size() < 1) {
                 tmpM++;
-            } else {
-                if(mega.dayFromList(tmpD,lista) != null){
-                    if(!dataPackages.contains(packageName)){
-                        dataPackages.add(packageName);
-                    }
-                    lista.add(mega.dayFromList(tmpD,lista));
-                    Log.d(LOGTAG,"found: "+tmpD+"."+tmpM+"."+tmpY);
-                    daysCombined++;
+                if(tmpM > 12){
+                    tmpY++;
+                    tmpM = 1;
                 }
+                stringYear = SM.customDigit(Integer.toString(tmpY),4);
+                stringMonth =  SM.customDigit(Integer.toString(tmpM),2);
+                tmpD = 1;
+            } else {
+                daySearched++;
+                tmpD++;
             }
-
-            daySearched++;
-            tmpD++;
         }
 
+        Log.d(LOGTAG,"days searched: "+daySearched);
         Log.d(LOGTAG,"days from time frame: "+daysCombined);
 
-        return lista;
+        Gson gson = new Gson();
+        String json = gson.toJson(returnList);
+        Log.d(LOGTAG,"list: "+returnList);
+
+        return returnList;
 
     }
 }

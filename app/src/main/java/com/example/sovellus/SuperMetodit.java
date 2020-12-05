@@ -10,18 +10,18 @@ public class SuperMetodit {
         Log.d(LOGTAG,"customDigit()");
         if(dig > 0){
             if(x.length()<dig){
-                Log.d(LOGTAG,"X wrong length: "+x.length()+" and length should be: "+dig+" [CONVERTING]");
+                //Log.d(LOGTAG,"X wrong length: "+x.length()+" and length should be: "+dig+" [CONVERTING]");
                 for(int i = (dig-x.length()); i > 0;i--){
                     x="0"+x;
                 }
-                Log.d(LOGTAG,"conversion done. Returning value: "+x+" [OK]");
+                //Log.d(LOGTAG,"conversion done. Returning value: "+x+" [OK]");
                 return x;
             }
         } else {
-            Log.d(LOGTAG,"given dig number was 0 or under: "+dig+". Returning starting value [FAILED]");
+            //Log.d(LOGTAG,"given dig number was 0 or under: "+dig+". Returning starting value [FAILED]");
             return x;
         }
-        Log.d(LOGTAG,"given value: "+x+" already had "+dig+" digits [OK]");
+        //Log.d(LOGTAG,"given value: "+x+" already had "+dig+" digits [OK]");
         return x;
     }
 
@@ -33,6 +33,7 @@ public class SuperMetodit {
     }
 
     public String convertSeconds(int sec){
+        Log.d(LOGTAG,"convertSeconds()");
         int h = 0;
         int m = 0;
         int s = 0;
