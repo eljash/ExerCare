@@ -1,12 +1,16 @@
 package com.example.sovellus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class ProfileActivity extends AppCompatActivity {
 
@@ -34,10 +38,52 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        //Etsitään alanavigaatio elementti
+        BottomNavigationView botNav = findViewById(R.id.navigationView);
+
+        //Kerrotaan mikä valittavista on auki: MainActivity = navigation_home
+        botNav.setSelectedItemId(R.id.navigation_profile);
+
+        botNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_home:
+                        goMain(botNav);
+                        return true;
+
+                    case R.id.navigation_history:
+                        goHistory(botNav);
+                        return true;
+
+                }
+                return false;
+            }
+        });
+
         Intent intent = getIntent();
         this.weight = String.valueOf(intent.getDoubleExtra("paino",0));
         this.screen = Integer.toString(intent.getIntExtra("ruutu",0));
         this.sport = Integer.toString(intent.getIntExtra("urheilu",0));
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
+    }
+
+    public void goHistory(View v){
+        Intent intent = new Intent(this, HistoryActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
+    }
+
+    public void goMain(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
     @Override

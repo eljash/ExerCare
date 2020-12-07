@@ -1,15 +1,19 @@
 package com.example.sovellus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -38,9 +42,50 @@ public class HistoryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_history);
 
+        //Etsitään alanavigaatio elementti
+        BottomNavigationView botNav = findViewById(R.id.navigationView);
+
+        //Kerrotaan mikä valittavista on auki: MainActivity = navigation_home
+        botNav.setSelectedItemId(R.id.navigation_history);
+
+        botNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_home:
+                        goMain(botNav);
+                        return true;
+
+                    case R.id.navigation_profile:
+                        goProfile(botNav);
+                        return true;
+
+                }
+                return false;
+            }
+        });
+
         HM = new HistoryManager(this);
         setDateListener();
         buildGraph();
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
+    }
+
+    public void goMain(View v){
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
+    }
+
+    public void goProfile(View v){
+        Intent intent = new Intent(this, ProfileActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
     private void setDateListener(){
@@ -110,8 +155,23 @@ public class HistoryActivity extends AppCompatActivity {
 
     private void buildGraph() {
         if (size > 0) {
+
+            //Etsitään suurin paino hakuaikavälin päivistä
+            double maxWeight = 50;
+            for(int i = 0; i < size; i++){
+                double tmpWeight = list.get(i).returnWeight();
+                if(tmpWeight > maxWeight){
+                    maxWeight=tmpWeight+5;
+                }
+            }
+
             GraphView graph = findViewById(R.id.Graph);
             graph.removeAllSeries();
+            graph.getViewport().setScalable(true);
+
+            //Määritellään "GraphView" elementin grafiikka sarjat
+            //Paino näytetään nollatasosta ylös nousevana palkkina "BarGraphSeries"
+            //Uhrheiluaika taas näytetään lineaarisena viivana "LineGraphSeries"
             painoSarja = new BarGraphSeries<>();
             urheiluSarja = new LineGraphSeries<>();
 
@@ -120,14 +180,18 @@ public class HistoryActivity extends AppCompatActivity {
                 double paino = list.get(i).returnWeight();
                 double y = 0 + Math.random() * 10;
                 double y2 = 20 + Math.random() * 10;
-                painoSarja.appendData(new DataPoint(i, paino), true, 100);
+                painoSarja.appendData(new DataPoint(i, paino), true, size);
                 //urheiluSarja.appendData(new DataPoint(i,y2), true, 100);
             }
+
+            //Lisätään GraphView luokalle aikavälin painon arvot sille ymmärrettävässä muodossa
             graph.addSeries(painoSarja);
             //graph.addSeries(urheiluSarja);
             graph.getSecondScale().addSeries(painoSarja);
             graph.getSecondScale().setMinY(0);
-            graph.getSecondScale().setMaxY(40);
+
+            //Asetetaan toisen skaalan vertikaalin maksimi pituudeksi "maxWeight" muuttujan arvo
+            graph.getSecondScale().setMaxY(maxWeight);
             graph.getGridLabelRenderer().setNumHorizontalLabels(size);
         }
     }

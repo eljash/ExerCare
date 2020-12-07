@@ -1,5 +1,6 @@
 package com.example.sovellus;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
@@ -8,8 +9,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Switch;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +42,30 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //Etsitään alanavigaatio elementti
+        BottomNavigationView botNav = findViewById(R.id.navigationView);
+
+        //Kerrotaan mikä valittavista on auki: MainActivity = navigation_home
+        botNav.setSelectedItemId(R.id.navigation_home);
+
+        botNav.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()){
+                    case R.id.navigation_history:
+                        goHistory(botNav);
+                        return true;
+
+                    case R.id.navigation_profile:
+                        goProfile(botNav);
+                        return true;
+
+                }
+                return false;
+            }
+        });
+
         this.mega = new Mega(this);
         this.SM = new SuperMetodit();
     }
@@ -70,12 +97,6 @@ public class MainActivity extends AppCompatActivity {
         correctCounterStates();
     }
 
-    public void clearSave(View v){
-        mega.clearData();
-        sCounter.setCurrent(0);
-        eCounter.setCurrent(0);
-    }
-
     public void sportTimeClicked(View v) {
         CustomGauge sportGauge = findViewById(R.id.sportTV);
         if (!eRunning) {
@@ -92,17 +113,27 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void goDebug(View v){
+        Intent intent = new Intent(this, DebugActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
+    }
+
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("urheilu", eCounter.getCurrent());
         intent.putExtra("ruutu",sCounter.getCurrent());
         intent.putExtra("paino",todayObject.returnWeight());
         startActivity(intent);
+
+        //Lisätään animaatio aktiviteetin vaihtoon
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
     public void goHistory(View v){
         Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
     public void screenTimeClicked(View v) {
@@ -255,54 +286,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
         predit.apply();
-    }
-
-    public void createFakeData(View v){
-        mega.insertData("2020","01",1,696969,420420,60,true);
-        mega.insertData("2020","01",3,696969,420420,60,true);
-        mega.insertData("2020","01",5,696969,420420,60,true);
-        mega.insertData("2020","01",9,696969,420420,60,true);
-        mega.insertData("2020","01",10,696969,420420,60,true);
-        mega.insertData("2020","02",15,696969,420420,60,true);
-        mega.insertData("2020","02",17,696969,420420,60,true);
-        mega.insertData("2020","03",1,696969,420420,60,true);
-        mega.insertData("2020","03",2,696969,420420,60,true);
-        mega.insertData("2020","03",3,696969,420420,60,true);
-        mega.insertData("2020","04",4,696969,420420,60,true);
-        mega.insertData("2020","04",6,696969,420420,60,true);
-        mega.insertData("2020","04",10,696969,420420,60,true);
-
-        /**
-        int num = 100;
-        int vuosi = 2020;
-        int kuukausi = 6;
-        int paiva = 1;
-        for(int i = 0;i < 100;i++){
-            while(Math.round(Math.random()) != 1){
-                paiva++;
-                if(paiva > 31 ){
-                    paiva = 1;
-                    kuukausi++;
-                    if(kuukausi > 12){
-                        kuukausi = 1;
-                        vuosi++;
-                    }
-                }
-            }
-            if(paiva > 31 ){
-                paiva = 1;
-                kuukausi++;
-                if(kuukausi > 12){
-                    kuukausi = 1;
-                    vuosi++;
-                }
-            }
-            String vuo = SM.customDigit(Integer.toString(vuosi),4);
-            String kuu = SM.customDigit(Integer.toString(kuukausi),2);
-            mega.insertData(vuo,kuu,paiva,vuosi*paiva,vuosi*paiva*2,80+Math.random()*10,true);
-            paiva++;
-        }
-         */
     }
 
     @Override

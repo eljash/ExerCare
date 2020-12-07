@@ -38,14 +38,19 @@ public class HistoryManager {
         this.eMonth = endMonth;
         this.eDay = endDay;
 
+        //JOS ALOITUS PÄIVÄMÄÄRÄ ON LOPETUS PÄIVÄMÄÄRÄN JÄLKEEN, KÄÄNNETÄÄN ARVOT PÄITTÄÄN "reverse()" FUNKTIOLLA
         if((startYear > endYear) ||(startYear == endYear && startMonth > endMonth)||(startYear == endYear && startMonth == endMonth && startDay > endDay)) {
             reverse();
         }
 
+        //FUNKTIOLLA ETSITÄÄN PÄIVÄT JOTKA PALAUTETAAN
         return calculateDays();
     }
 
     private void reverse(){
+
+        //FUNKTIO KÄÄNTÄÄ ALOITUS-LOPETUS PÄIVÄMÄÄRÄT PÄITTÄÄN
+
         int tmp;
 
         tmp = this.sYear;
@@ -62,12 +67,16 @@ public class HistoryManager {
     }
 
     private ArrayList<dataOlio> calculateDays(){
+
         daysCombined = 0;
 
         int maxDays = 1000;
         int daySearched = 0;
 
+        //dataPackages LISTAAN VARMUUDEN VUOKSI LÖYDETYT DATAPAKETIT MUISTIIN MAHDOLLISTA JATKO KÄYTTÖÄ VARTEN
         ArrayList<String> dataPackages = new ArrayList<>();
+        ArrayList<dataOlio> lista;
+        ArrayList<dataOlio> returnList = new ArrayList<>();
 
         int tmpY=this.sYear, tmpM=this.sMonth, tmpD=sDay;
 
@@ -76,17 +85,21 @@ public class HistoryManager {
 
         String packageName;
 
-        ArrayList<dataOlio> lista;
-        ArrayList<dataOlio> returnList = new ArrayList<>();
-
         while((tmpY <= this.eYear && tmpM <= this.eMonth)&&daySearched <= maxDays){
 
+            //JOS WHILE LOOP JOSTAIN SYYSTÄ PETTÄISI NIIN VARMUUDEN VUOKSI
             if(tmpY >= this.eYear && tmpM >= this.eMonth && tmpD >= eDay){
                 break;
             }
 
+            //LUODAAN DATAPAKETIN NIMI VUODEN JA KUUKAUDEN PERUSTEELLA HYÖDYNTÄEN SuperMetodit.java
+            //LUOKAN FUNKTIOTA
             packageName = SM.createPackageName(stringYear,stringMonth);
+
+            //HAETAAN Mega.java FUNKTION "loadData" AVULLA PÄIVÄMÄÄRÄÄ VASTAAVA DATAPAKETTI
             lista = mega.loadData(stringYear,stringMonth);
+
+            //JOS DATAPAKETTI LÖYTYY, ETSITÄÄN SIITÄ HALUTUN AIKAVÄLIN PÄIVÄT
             if(lista!=null){
                 int x;
                 if(tmpM == eMonth){
@@ -94,6 +107,9 @@ public class HistoryManager {
                 } else {
                     x = 31;
                 }
+
+                //WHILE LOOP KÄY JOKO KOKO KUUKAUDEN LÄPI TAI JOS KYSEESSÄ ON LOPPUMIS KUUKAUSI
+                //NIIN ETSITÄÄN VAIN HALUTUT PÄIVÄT
                 while(tmpD<=x){
                     Log.d(LOGTAG,"searching for date: "+tmpD+"."+tmpM+"."+tmpY);
                     if(mega.dayFromList(tmpD,lista) != null){
@@ -110,7 +126,7 @@ public class HistoryManager {
                 }
             }
 
-            if(tmpD > 31){
+            if(tmpD >= 31){ //JOS VAIHDETAAN SEURAAVAAN KUUKAUTEEN JA TARVITTAESSA SEURAAVAAN VUOTEEN
                 tmpM++;
                 if(tmpM > 12){
                     tmpY++;
@@ -119,7 +135,7 @@ public class HistoryManager {
                 stringYear = SM.customDigit(Integer.toString(tmpY),4);
                 stringMonth =  SM.customDigit(Integer.toString(tmpM),2);
                 tmpD = 1;
-            } else if (lista == null || lista.size() < 1) {
+            } else if (lista == null || lista.size() < 1) { //JOS KUUKAUDEN DATAPAKETTI ON TYHJÄ SIIRRYTÄÄN SUORAAN SEURAAVAAN KUUKAUTEEN/VUOTEEN
                 tmpM++;
                 if(tmpM > 12){
                     tmpY++;
@@ -137,10 +153,7 @@ public class HistoryManager {
         Log.d(LOGTAG,"days searched: "+daySearched);
         Log.d(LOGTAG,"days from time frame: "+daysCombined);
 
-        Gson gson = new Gson();
-        String json = gson.toJson(returnList);
-        Log.d(LOGTAG,"list: "+returnList);
-
+        //PALAUTTAA "dataOlio" LISTAN JOKA SISÄLTÄÄ PÄIVÄMÄÄRÄLLISESSÄ JÄRJESTYKSESSÄ HALUTUN AIKAVÄLIN PÄIVIEN TIEDOT
         return returnList;
 
     }
