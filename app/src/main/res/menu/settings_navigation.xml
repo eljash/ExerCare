@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navigation_appSettings"
+        android:icon="@drawable/ic_baseline_settings_applications_24"
+        android:title="Settings"/>
+
+    <item
+        android:id="@+id/navigation_debug"
+        android:icon="@drawable/bug"
+        android:title="Debug"/>
+
+</menu>

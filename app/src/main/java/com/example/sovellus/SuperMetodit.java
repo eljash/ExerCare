@@ -36,7 +36,6 @@ public class SuperMetodit {
         Log.d(LOGTAG,"convertSeconds()");
         int h = 0;
         int m = 0;
-        int s = 0;
         int x = 0;
         while(sec >= 3600){
             h++;
@@ -52,10 +51,10 @@ public class SuperMetodit {
             if(x>60)break;
         }
         if(h>0){
-            return h+"h "+m+"min "+s+"s";
+            return h+"h "+m+"min "+sec+"s";
         } else if(m>0){
-            return m+"min "+s+"s";
+            return m+"min "+sec+"s";
         }
-        return s+"s";
+        return sec+"s";
     }
 }
