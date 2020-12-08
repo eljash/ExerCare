@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -74,6 +75,24 @@ public class HistoryActivity extends AppCompatActivity {
     public void finish() {
         super.finish();
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
+    }
+
+    public void radioButtonClick(View v){
+        //Onko painettu radio nappi päällä
+        boolean checked = ((RadioButton) v).isChecked();
+
+        //Katsotaan mikä radio napeista on painettuna
+        switch(v.getId()){
+            case R.id.history_radio_screen://ruutuaika
+                if(checked)
+                    break;
+            case R.id.history_radio_sport://urheilu
+                if(checked)
+                    break;
+            case R.id.history_radio_weight://paino
+                if(checked)
+                    break;
+        }
     }
 
     public void goMain(View v){
