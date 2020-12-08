@@ -12,15 +12,16 @@ public class Counter {
     private boolean firstRun = true;
     private boolean isRunning;
     private int pointerSize;
+    private int timeGoal;
 
-    public Counter(int seconds,CustomGauge CG) {
+    public Counter(int seconds,CustomGauge CG, int timeGoal) {
         this.seconds = seconds;
         this.timer = new Timer();
         this.tv = CG;
         this.tv.setValue(this.seconds);
         this.isRunning = false;
         this.pointerSize = this.seconds;
-
+        this.timeGoal = timeGoal;
     }
 
     public int getCurrent() {
@@ -44,12 +45,10 @@ public class Counter {
                     firstRun = false;
                 } else {
                     seconds++;
-                    if (seconds * 12 > 24) {
-                        tv.setPointSize(pointerSize * 12);
-                    } else {
-                        tv.setPointSize(24);
-                    }
                     tv.setValue(seconds);
+                    if (seconds > timeGoal) {
+                        timer.cancel();
+                    }
                 }
             }
         }, 0, 1000);

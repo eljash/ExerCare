@@ -82,6 +82,8 @@ public class MainActivity extends AppCompatActivity {
         screenGauge.setEndValue(user.screenTimeGoal());
         sportGauge.setPointStartColor(Color.BLUE);
         sportGauge.setPointEndColor(Color.BLUE);
+        screenGauge.setPointStartColor(Color.rgb(255,102,0));
+        screenGauge.setPointEndColor(Color.RED);
     }
 
     @Override
@@ -239,8 +241,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // LUO UUDET AJASTIMET
-        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
-        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
+        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV),user.sportTimeGoal());
+        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV),user.screenTimeGoal());
 
         // LAITTAA AJASTIMEN PÄÄLLE SEN PERUSTEELLA OLIKO JOMPI KUMPI PÄÄLLÄ VIIMEKSI
         if(eRunning)eCounter.run();
