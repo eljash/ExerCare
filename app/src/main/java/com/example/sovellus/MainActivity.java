@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -79,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
         CustomGauge screenGauge = findViewById(R.id.screenTV);
         sportGauge.setEndValue(user.sportTimeGoal());
         screenGauge.setEndValue(user.screenTimeGoal());
+        sportGauge.setPointStartColor(Color.BLUE);
+        sportGauge.setPointEndColor(Color.BLUE);
     }
 
     @Override

@@ -11,6 +11,7 @@ public class Counter {
     private CustomGauge tv;
     private boolean firstRun = true;
     private boolean isRunning;
+    private int pointerSize;
 
     public Counter(int seconds,CustomGauge CG) {
         this.seconds = seconds;
@@ -18,6 +19,8 @@ public class Counter {
         this.tv = CG;
         this.tv.setValue(this.seconds);
         this.isRunning = false;
+        this.pointerSize = this.seconds;
+
     }
 
     public int getCurrent() {
@@ -41,6 +44,11 @@ public class Counter {
                     firstRun = false;
                 } else {
                     seconds++;
+                    if (seconds * 12 > 24) {
+                        tv.setPointSize(pointerSize * 12);
+                    } else {
+                        tv.setPointSize(24);
+                    }
                     tv.setValue(seconds);
                 }
             }

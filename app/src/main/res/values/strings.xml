@@ -14,9 +14,9 @@
     <string name="change">vaihda</string>
     <string name="values_text">Tämän päivän arvot</string>
     <string name="weight">Paino:</string>
-    <string name="sport_time">Urheilu aika:</string>
-    <string name="screen_time">Ruutu aika:</string>
-    <string name="welcome_text">Welcome! <br />Please fill in your information and the daily time you wish to spend on activities listed below.</string>
+    <string name="sport_time">Urheiluaika:</string>
+    <string name="screen_time">Ruutuaika:</string>
+    <string name="welcome_text">Tervetuloa! <br />Täytä tietosi alapuolella oleviin kenttiin.</string>
     <string name="name">Name:</string>
     <string name="new_user_name">Name</string>
     <string name="new_user_weight">Weight</string>
