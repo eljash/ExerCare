@@ -7,6 +7,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -79,6 +80,10 @@ public class MainActivity extends AppCompatActivity {
         CustomGauge screenGauge = findViewById(R.id.screenTV);
         sportGauge.setEndValue(user.sportTimeGoal());
         screenGauge.setEndValue(user.screenTimeGoal());
+        sportGauge.setPointStartColor(Color.BLUE);
+        sportGauge.setPointEndColor(Color.BLUE);
+        screenGauge.setPointStartColor(Color.rgb(255,102,0));
+        screenGauge.setPointEndColor(Color.RED);
     }
 
     @Override
@@ -236,8 +241,8 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // LUO UUDET AJASTIMET
-        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV));
-        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV));
+        eCounter = new Counter(todayObject.sportSec(),findViewById(R.id.sportTV),user.sportTimeGoal());
+        sCounter = new Counter(todayObject.screenSec(),findViewById(R.id.screenTV),user.screenTimeGoal());
 
         // LAITTAA AJASTIMEN PÄÄLLE SEN PERUSTEELLA OLIKO JOMPI KUMPI PÄÄLLÄ VIIMEKSI
         if(eRunning)eCounter.run();
