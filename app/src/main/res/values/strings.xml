@@ -31,4 +31,6 @@
     <string name="new_user_weight_goal">Paino tavoitteesi</string>
     <string name="submit">Syötä</string>
     <string name="cancel">Peruuta</string>
+    <string name="settings">Asetukset</string>
+    <string name="temp_empty">Tyhjä</string>
 </resources>
