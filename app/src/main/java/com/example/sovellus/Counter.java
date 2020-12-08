@@ -18,10 +18,15 @@ public class Counter {
         this.seconds = seconds;
         this.timer = new Timer();
         this.tv = CG;
-        this.tv.setValue(this.seconds);
         this.isRunning = false;
         this.pointerSize = this.seconds;
         this.timeGoal = timeGoal;
+
+        if (this.seconds >= this.timeGoal) {
+            this.tv.setValue(this.timeGoal);
+        } else {
+            this.tv.setValue(this.seconds);
+        }
     }
 
     public int getCurrent() {
@@ -45,9 +50,11 @@ public class Counter {
                     firstRun = false;
                 } else {
                     seconds++;
-                    tv.setValue(seconds);
                     if (seconds > timeGoal) {
+                        tv.setValue(timeGoal);
                         timer.cancel();
+                    } else {
+                        tv.setValue(seconds);
                     }
                 }
             }
@@ -57,7 +64,12 @@ public class Counter {
     public void stop() {
         this.timer.cancel();
         isRunning = false;
-        tv.setValue(this.seconds);
+
+        if (this.seconds >= this.timeGoal) {
+            this.tv.setValue(this.timeGoal);
+        } else {
+            this.tv.setValue(this.seconds);
+        }
     }
 
     public boolean isRunning(){

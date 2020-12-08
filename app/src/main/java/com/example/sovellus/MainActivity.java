@@ -76,14 +76,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(LOGTAG,"onStart()");
         checkForProfile();
-        CustomGauge sportGauge = findViewById(R.id.sportTV);
-        CustomGauge screenGauge = findViewById(R.id.screenTV);
-        sportGauge.setEndValue(user.sportTimeGoal());
-        screenGauge.setEndValue(user.screenTimeGoal());
-        sportGauge.setPointStartColor(Color.BLUE);
-        sportGauge.setPointEndColor(Color.BLUE);
-        screenGauge.setPointStartColor(Color.rgb(255,102,0));
-        screenGauge.setPointEndColor(Color.RED);
+        setGaugePointerEndValue();
     }
 
     @Override
@@ -91,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d(LOGTAG,"onResume()");
 
+        setGaugePointerEndValue();
         mega.todayData();
         todayObject = mega.todayObject();
 
@@ -100,6 +94,17 @@ public class MainActivity extends AppCompatActivity {
         checkLastExit();
 
         correctCounterStates();
+    }
+
+    public void setGaugePointerEndValue() {
+        CustomGauge sportGauge = findViewById(R.id.sportTV);
+        CustomGauge screenGauge = findViewById(R.id.screenTV);
+        sportGauge.setEndValue(user.sportTimeGoal());
+        screenGauge.setEndValue(user.screenTimeGoal());
+        sportGauge.setPointStartColor(Color.rgb(51,204,255));
+        sportGauge.setPointEndColor(Color.rgb(51,204,255));
+        screenGauge.setPointStartColor(Color.rgb(255,112,77));
+        screenGauge.setPointEndColor(Color.rgb(255,51,0));
     }
 
     public void sportTimeClicked(View v) {
