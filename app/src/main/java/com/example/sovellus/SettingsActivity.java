@@ -43,6 +43,12 @@ public class SettingsActivity extends AppCompatActivity {
 
     }
 
+    public void goDebug(View v){
+        Intent intent = new Intent(getApplicationContext(),DebugActivity.class);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
+    }
+
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
