@@ -86,7 +86,7 @@ public class ProfileActivity extends AppCompatActivity {
         createChangeButtons();
 
         Intent intent = getIntent();
-        this.weight = intent.getDoubleExtra("paino",0)+" kg";
+        this.weight = intent.getDoubleExtra("paino",mega.todayObject().returnWeight())+" kg";
         this.screen = SM.convertSeconds(intent.getIntExtra("ruutu",mega.todayObject().screenSec()));
         this.sport = SM.convertSeconds(intent.getIntExtra("urheilu",mega.todayObject().sportSec()));
     }

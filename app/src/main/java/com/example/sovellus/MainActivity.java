@@ -1,10 +1,12 @@
 package com.example.sovellus;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -12,6 +14,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -37,12 +42,17 @@ public class MainActivity extends AppCompatActivity {
     private SwitchCompat sportSwitch;
     private SwitchCompat screenSwitch;
 
+    private Button weightButton;
+    private EditText input;
+
     private dataOlio todayObject;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        weightButton = findViewById(R.id.Pp_button);
 
         //Etsitään alanavigaatio elementti
         BottomNavigationView botNav = findViewById(R.id.navigationView);
@@ -66,6 +76,8 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+        createChangeButtons();
 
         this.mega = new Mega(this);
         this.SM = new SuperMetodit();
@@ -160,6 +172,10 @@ public class MainActivity extends AppCompatActivity {
             sCounter.stop();
             sRunning = false;
         }
+    }
+
+    public void insertWeight(View v){
+
     }
 
     /** METODI VARMISTAA, ETTÄ SWITCHIN BOOLEAN ON SAMA KUIN AJASTIMEN PYÖRIMIS BOOLEAN */
@@ -296,6 +312,64 @@ public class MainActivity extends AppCompatActivity {
         }
 
         predit.apply();
+    }
+
+    private void createChangeButtons(){
+        input = new EditText(this);
+
+        //Luodaan dialogi nimen vaihdolle
+        //Mahdollistaa nappia painaessa ponnahdusikkunan esiin tulon joka kysyy uutta nimeä
+        AlertDialog.Builder weightBuilder = new AlertDialog.Builder(this);
+
+        //Asetetaan otsikko, ikoni ja viesti dialogiin
+        weightBuilder.setTitle(R.string.weight);
+        weightBuilder.setIcon(R.drawable.retrad);
+        weightBuilder.setMessage(R.string.weight);
+
+        weightBuilder.setView(input);
+
+        //Lisätään "syötä" napin toiminnallisuus sekä napin teksti painon syötölle
+        weightBuilder.setPositiveButton(R.string.submit, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String text = input.getText().toString();
+                boolean convertable = true;
+                double wValue = 0;
+
+                try {
+                    wValue = Double.parseDouble(text);
+                } catch (NumberFormatException e) {
+                    convertable = false;
+                }
+
+                if(convertable){
+                    mega.todayObject().insertWeight(wValue);
+                    mega.todayObject().insertWeightBoolean(true);
+                    mega.saveToday();
+                    Toast.makeText(getApplicationContext(),text, Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getApplicationContext(),"SYÖTÄ PAINO KILOISSA", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        //Lisätään "peruuta" napin toiminnallisuus sekä napin teksti nimen vaihdolle
+        weightBuilder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        AlertDialog changeWeight = weightBuilder.create();
+
+        //Lisätään aktiviteetin nappiin toiminnallisuus joka avaa nimenvaihto dialogin
+        weightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeWeight.show();
+            }
+        });
     }
 
     @Override

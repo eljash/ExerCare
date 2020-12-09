@@ -67,19 +67,22 @@
                 android:id="@+id/history_radio_weight"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Paino" />
+                android:text="@string/Paino"
+                android:onClick="radioButtonClick"/>
 
             <RadioButton
                 android:id="@+id/history_radio_sport"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Urheilu" />
+                android:text="@string/Urheilu"
+                android:onClick="radioButtonClick"/>
 
             <RadioButton
                 android:id="@+id/history_radio_screen"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/Ruutuaika" />
+                android:text="@string/Ruutuaika"
+                android:onClick="radioButtonClick"/>
         </RadioGroup>
 
         <com.google.android.material.bottomnavigation.BottomNavigationView

@@ -15,6 +15,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
@@ -30,9 +31,11 @@ public class HistoryActivity extends AppCompatActivity {
     private HistoryManager HM;
     private int startY, startM, startD, endY, endM, endD;
     private ArrayList<dataOlio> list = new ArrayList<>();
-    private LineGraphSeries<DataPoint> urheiluSarja,ruutuSarja;
+    private LineGraphSeries<DataPoint> lineaarinenSarja;
     private BarGraphSeries<DataPoint> painoSarja;
     private int size;
+
+    private String format;
 
     private TextView startDate;
     private TextView endDate;
@@ -68,7 +71,7 @@ public class HistoryActivity extends AppCompatActivity {
 
         HM = new HistoryManager(this);
         setDateListener();
-        buildGraph();
+        buildGraphWeight();
     }
 
     @Override
@@ -85,12 +88,15 @@ public class HistoryActivity extends AppCompatActivity {
         switch(v.getId()){
             case R.id.history_radio_screen://ruutuaika
                 if(checked)
+                    buildGraphScreen();
                     break;
             case R.id.history_radio_sport://urheilu
                 if(checked)
+                    buildGraphSport();
                     break;
             case R.id.history_radio_weight://paino
                 if(checked)
+                    buildGraphWeight();
                     break;
         }
     }
@@ -169,9 +175,170 @@ public class HistoryActivity extends AppCompatActivity {
         if (list!=null){
             size = list.size();
         }
-        buildGraph();
+        buildGraphWeight();
     }
 
+    private void buildGraphWeight() {
+        if (size > 0) {
+
+            //Etsitään suurin paino hakuaikavälin päivistä
+            double maxWeight = 50;
+            for(int i = 0; i < size; i++){
+                double tmpWeight = list.get(i).returnWeight();
+                if(tmpWeight > maxWeight){
+                    maxWeight=tmpWeight+5;
+                }
+            }
+
+            GraphView graph = findViewById(R.id.Graph);
+            graph.removeAllSeries();
+            graph.getViewport().setScalable(true);
+
+            //Määritellään "GraphView" elementin grafiikka sarja
+            //Paino näytetään nollatasosta ylös nousevana palkkina "BarGraphSeries"
+            painoSarja = new BarGraphSeries<>();
+
+
+            for (int i = 0; i < size; i++) {
+                double paino = list.get(i).returnWeight();
+                painoSarja.appendData(new DataPoint(i, paino), true, size);
+            }
+
+            //Lisätään GraphView luokalle aikavälin painon arvot sille ymmärrettävässä muodossa
+            graph.addSeries(painoSarja);
+
+            //Varmistetaan että eka ja vika arvo näkyvät "kokonaisina" palkkeina
+            graph.getViewport().setXAxisBoundsManual(true);
+            {
+                graph.getViewport().setMinX(painoSarja.getLowestValueX()-(1.0/2.0));
+                graph.getViewport().setMaxX(painoSarja.getHighestValueX()+(1.0/2.0));
+            }
+
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+                @Override
+                public String formatLabel(double value, boolean isValueX){
+                    if(isValueX){
+                        return super.formatLabel(value, isValueX);
+                    }
+                    return super.formatLabel(value,isValueX)+"kg";
+                }
+            });
+        }
+    }
+
+    private void buildGraphSport() {
+        if (size > 0) {
+
+            format = "sec";
+
+            //Etsitään suurin paino hakuaikavälin päivistä
+            int maxSport = 0;
+            for(int i = 0; i < size; i++){
+                int tmpSport = list.get(i).sportSec();
+                if(tmpSport > maxSport){
+                    maxSport=tmpSport+5;
+                }
+            }
+
+            GraphView graph = findViewById(R.id.Graph);
+            graph.removeAllSeries();
+            graph.getViewport().setScalable(true);
+
+            //Määritellään "GraphView" elementin grafiikka sarja
+            //Paino näytetään nollatasosta ylös nousevana palkkina "BarGraphSeries"
+            lineaarinenSarja = new LineGraphSeries<>();
+
+            //Muutetaan urheiluarvot helpoiten luettavaan muotoon
+            if(maxSport >= 3600){//Tunneissa
+                for (int i = 0; i < size; i++) {
+                    int sport = list.get(i).sportSec()/3600;
+                    lineaarinenSarja.appendData(new DataPoint(i, sport), true, size);
+                    format = "h";
+                }
+            } else if (maxSport >= 60){//Minuuteissa
+                for (int i = 0; i < size; i++) {
+                    int sport = list.get(i).sportSec()/60;
+                    lineaarinenSarja.appendData(new DataPoint(i, sport), true, size);
+                    format = "min";
+                }
+            } else {//Sekunneissa
+                for (int i = 0; i < size; i++) {
+                    int sport = list.get(i).sportSec();
+                    lineaarinenSarja.appendData(new DataPoint(i, sport), true, size);
+                }
+            }
+            //Lisätään GraphView luokalle aikavälin painon arvot sille ymmärrettävässä muodossa
+            graph.addSeries(lineaarinenSarja);
+
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+                @Override
+                public String formatLabel(double value, boolean isValueX){
+                    if(isValueX){
+                        return super.formatLabel(value, isValueX);
+                    }
+                    return super.formatLabel(value,isValueX)+format;
+                }
+            });
+        }
+    }
+
+    private void buildGraphScreen() {
+        if (size > 0) {
+
+            format = "sec";
+
+            //Etsitään suurin paino hakuaikavälin päivistä
+            int maxScreen = 0;
+            for(int i = 0; i < size; i++){
+                int tmpSport = list.get(i).sportSec();
+                if(tmpSport > maxScreen){
+                    maxScreen=tmpSport+5;
+                }
+            }
+
+            GraphView graph = findViewById(R.id.Graph);
+            graph.removeAllSeries();
+            graph.getViewport().setScalable(true);
+
+            //Määritellään "GraphView" elementin grafiikka sarja
+            //Paino näytetään nollatasosta ylös nousevana palkkina "BarGraphSeries"
+            lineaarinenSarja = new LineGraphSeries<>();
+
+            //Muutetaan ruutuarvot helpoiten luettavaan muotoon
+            if(maxScreen >= 3600){//Tunneissa
+                for (int i = 0; i < size; i++) {
+                    int screen = list.get(i).screenSec()/3600;
+                    lineaarinenSarja.appendData(new DataPoint(i, screen), true, size);
+                    format="h";
+                }
+            } else if (maxScreen >= 60){//Minuuteissa
+                for (int i = 0; i < size; i++) {
+                    int screen = list.get(i).screenSec()/60;
+                    lineaarinenSarja.appendData(new DataPoint(i, screen), true, size);
+                    format="min";
+                }
+            } else {//Sekunneissa
+                for (int i = 0; i < size; i++) {
+                    int screen = list.get(i).screenSec();
+                    lineaarinenSarja.appendData(new DataPoint(i, screen), true, size);
+                }
+            }
+            //Lisätään GraphView luokalle aikavälin painon arvot sille ymmärrettävässä muodossa
+            graph.addSeries(lineaarinenSarja);
+
+            graph.getGridLabelRenderer().setLabelFormatter(new DefaultLabelFormatter(){
+                @Override
+                public String formatLabel(double value, boolean isValueX){
+                    if(isValueX){
+                        return super.formatLabel(value, isValueX);
+                    }
+                    return super.formatLabel(value,isValueX)+format;
+                }
+            });
+        }
+    }
+
+    /** VANHVA
     private void buildGraph() {
         if (size > 0) {
 
@@ -214,4 +381,5 @@ public class HistoryActivity extends AppCompatActivity {
             graph.getGridLabelRenderer().setNumHorizontalLabels(size);
         }
     }
+     */
 }
