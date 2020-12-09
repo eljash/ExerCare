@@ -1,4 +1,4 @@
-package com.example.sovellus;
+package Classes;
 
 import android.app.Activity;
 import android.content.Context;

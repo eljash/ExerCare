@@ -3,11 +3,6 @@ package Classes;
 import android.content.Context;
 import android.util.Log;
 
-import com.example.sovellus.Mega;
-import com.example.sovellus.SuperMetodit;
-import com.example.sovellus.dataOlio;
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 
 public class HistoryManager {

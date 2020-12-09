@@ -10,6 +10,8 @@ import android.view.View;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import Classes.Mega;
+
 public class DebugActivity extends AppCompatActivity {
 
     Mega mega = new Mega(this);

@@ -23,6 +23,11 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.Calendar;
 
+import Classes.Mega;
+import Classes.SuperMetodit;
+import Classes.User;
+import Classes.UserProfileEditor;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private UserProfileEditor profile;

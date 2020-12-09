@@ -14,7 +14,7 @@
 * Ohjelmointi "Lecture05" JSON... Lataa .jar tiedosto ja importoi
 *
 */
-package com.example.sovellus;
+package Classes;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;

@@ -6,7 +6,7 @@
 *
 */
 
-package com.example.sovellus;
+package Classes;
 
 import java.util.Date;
 

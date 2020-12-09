@@ -3,17 +3,13 @@ package com.example.sovellus;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -29,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import Classes.HistoryManager;
+import Classes.dataOlio;
 
 public class HistoryActivity extends AppCompatActivity {
 

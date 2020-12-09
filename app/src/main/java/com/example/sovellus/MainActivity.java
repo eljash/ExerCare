@@ -23,6 +23,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import Classes.Counter;
+import Classes.Mega;
+import Classes.SuperMetodit;
+import Classes.User;
+import Classes.UserProfileEditor;
+import Classes.dataOlio;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class MainActivity extends AppCompatActivity {
