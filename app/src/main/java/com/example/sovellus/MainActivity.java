@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -127,7 +128,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setLatestWeight() {
-        EditText LW = findViewById(R.id.latestWeightText);
+        TextView LW = findViewById(R.id.latestWeightText);
         LW.setText((user.startWeight()) + " kg");
     }
 
