@@ -35,4 +35,5 @@
     <string name="temp_empty">Tyhjä</string>
     <string name="debug">Debug</string>
     <string name="day_value">Päivä:</string>
+    <string name="more">Lisää</string>
 </resources>

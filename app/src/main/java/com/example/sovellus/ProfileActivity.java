@@ -126,10 +126,6 @@ public class ProfileActivity extends AppCompatActivity {
         updateTextValues();
     }
 
-    public void changeName(View v){
-
-    }
-
     private void updateTextValues(){
         profN = findViewById(R.id.profileName);
         brthD = findViewById(R.id.birthDate);

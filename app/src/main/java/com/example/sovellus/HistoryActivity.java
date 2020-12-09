@@ -3,11 +3,14 @@ package com.example.sovellus;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -15,6 +18,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
 import com.jjoe64.graphview.DefaultLabelFormatter;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.series.BarGraphSeries;
@@ -99,6 +103,15 @@ public class HistoryActivity extends AppCompatActivity {
                     buildGraphWeight();
                     break;
         }
+    }
+
+    public void goInformative(View v){
+        Intent intent = new Intent(getApplicationContext(),InformativeHistoryActivity.class);
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        intent.putExtra("historyList",json);
+        startActivity(intent);
+        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
     public void goMain(View v){
@@ -337,49 +350,4 @@ public class HistoryActivity extends AppCompatActivity {
             });
         }
     }
-
-    /** VANHVA
-    private void buildGraph() {
-        if (size > 0) {
-
-            //Etsitään suurin paino hakuaikavälin päivistä
-            double maxWeight = 50;
-            for(int i = 0; i < size; i++){
-                double tmpWeight = list.get(i).returnWeight();
-                if(tmpWeight > maxWeight){
-                    maxWeight=tmpWeight+5;
-                }
-            }
-
-            GraphView graph = findViewById(R.id.Graph);
-            graph.removeAllSeries();
-            graph.getViewport().setScalable(true);
-
-            //Määritellään "GraphView" elementin grafiikka sarjat
-            //Paino näytetään nollatasosta ylös nousevana palkkina "BarGraphSeries"
-            //Uhrheiluaika taas näytetään lineaarisena viivana "LineGraphSeries"
-            painoSarja = new BarGraphSeries<>();
-            urheiluSarja = new LineGraphSeries<>();
-
-
-            for (int i = 0; i < size; i++) {
-                double paino = list.get(i).returnWeight();
-                double y = 0 + Math.random() * 10;
-                double y2 = 20 + Math.random() * 10;
-                painoSarja.appendData(new DataPoint(i, paino), true, size);
-                //urheiluSarja.appendData(new DataPoint(i,y2), true, 100);
-            }
-
-            //Lisätään GraphView luokalle aikavälin painon arvot sille ymmärrettävässä muodossa
-            graph.addSeries(painoSarja);
-            //graph.addSeries(urheiluSarja);
-            graph.getSecondScale().addSeries(painoSarja);
-            graph.getSecondScale().setMinY(0);
-
-            //Asetetaan toisen skaalan vertikaalin maksimi pituudeksi "maxWeight" muuttujan arvo
-            graph.getSecondScale().setMaxY(maxWeight);
-            graph.getGridLabelRenderer().setNumHorizontalLabels(size);
-        }
-    }
-     */
 }
