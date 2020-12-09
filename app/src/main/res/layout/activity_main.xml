@@ -19,12 +19,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
+            android:layout_marginLeft="300dp"
             android:layout_marginTop="16dp"
-            android:text="@string/Urheilu"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="300dp" />
+            android:text="@string/Urheilu" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/Sport_switch"
@@ -39,8 +39,11 @@
             android:checked="false"
             android:onClick="sportTimeClicked"
             android:saveEnabled="false"
+            android:scrollHorizontally="false"
             android:text="@string/Uswitch"
-            tools:checked="false" />
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            tools:checked="false"
+            android:theme="@style/BlueSwitch"/>
 
         <pl.pawelkleczkowski.customgauge.CustomGauge
             android:id="@+id/sportTV"
@@ -90,7 +93,6 @@
     </RelativeLayout>
 
 
-
     <RelativeLayout
         android:id="@+id/Rlayout"
         android:layout_width="match_parent"
@@ -103,12 +105,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
+            android:layout_marginLeft="300dp"
             android:layout_marginTop="16dp"
-            android:text="@string/Ruutuaika"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="300dp" />
+            android:text="@string/Ruutuaika" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/Screen_switch"
@@ -121,7 +123,10 @@
             android:layout_marginLeft="32dp"
             android:layout_marginTop="64dp"
             android:onClick="screenTimeClicked"
-            android:text="@string/Rswitch" />
+            android:text="@string/Rswitch"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColorLink="#FFFFFF"
+            android:theme="@style/RedSwitch"/>
 
         <pl.pawelkleczkowski.customgauge.CustomGauge
             android:id="@+id/screenTV"
@@ -183,24 +188,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="300dp"
+            android:layout_marginLeft="300dp"
             android:layout_marginTop="16dp"
-            android:text="@string/Paino"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="300dp" />
+            android:text="@string/Paino" />
 
         <Button
             android:id="@+id/Pp_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginStart="32dp"
+            android:layout_marginLeft="32dp"
             android:layout_marginTop="32dp"
-            android:text="@string/PpButton"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="32dp" />
+            android:text="@string/PpButton" />
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/navigationView"
@@ -226,6 +231,40 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:menu="@menu/navigation" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="35dp"
+            android:layout_marginLeft="35dp"
+            android:layout_marginTop="114dp"
+            android:layout_marginEnd="211dp"
+            android:layout_marginRight="211dp"
+            android:layout_marginBottom="106dp"
+            android:text="Viimeisin syötetty paino:"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+        <EditText
+            android:id="@+id/latestWeightText"
+            android:layout_width="wrap_content"
+            android:layout_height="25dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="103dp"
+            android:layout_marginEnd="170dp"
+            android:layout_marginRight="170dp"
+            android:layout_marginBottom="116dp"
+            android:text="TextView"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     </RelativeLayout>
 

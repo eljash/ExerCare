@@ -52,7 +52,6 @@ public class Counter {
                     seconds++;
                     if (seconds > timeGoal) {
                         tv.setValue(timeGoal);
-                        timer.cancel();
                     } else {
                         tv.setValue(seconds);
                     }

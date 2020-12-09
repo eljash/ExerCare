@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         Log.d(LOGTAG,"onStart()");
         checkForProfile();
-        setGaugePointerEndValue();
+        setGaugeEndValue();
+        setLatestWeight();
     }
 
     @Override
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         Log.d(LOGTAG,"onResume()");
 
-        setGaugePointerEndValue();
+        setGaugeEndValue();
         mega.todayData();
         todayObject = mega.todayObject();
 
@@ -114,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
         correctCounterStates();
     }
 
-    public void setGaugePointerEndValue() {
+    public void setGaugeEndValue() {
         CustomGauge sportGauge = findViewById(R.id.sportTV);
         CustomGauge screenGauge = findViewById(R.id.screenTV);
         sportGauge.setEndValue(user.sportTimeGoal());
@@ -123,6 +124,11 @@ public class MainActivity extends AppCompatActivity {
         sportGauge.setPointEndColor(Color.rgb(51,204,255));
         screenGauge.setPointStartColor(Color.rgb(255,112,77));
         screenGauge.setPointEndColor(Color.rgb(255,51,0));
+    }
+
+    public void setLatestWeight() {
+        EditText LW = findViewById(R.id.latestWeightText);
+        LW.setText((user.startWeight()) + " kg");
     }
 
     public void sportTimeClicked(View v) {

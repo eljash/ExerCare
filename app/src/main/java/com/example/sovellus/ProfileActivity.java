@@ -143,7 +143,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         profN.setText(userProfile.name());
         brthD.setText(userProfile.day()+"."+userProfile.month()+"."+userProfile.year());
-        weightGoal.setText(String.valueOf(userProfile.weightGoal()));
+        weightGoal.setText(String.valueOf(userProfile.weightGoal()) + " kg");
         sportGoal.setText(SM.convertSeconds(userProfile.sportTimeGoal()));
         screenGoal.setText(SM.convertSeconds(userProfile.screenTimeGoal()));
         weightValue.setText(weight);
