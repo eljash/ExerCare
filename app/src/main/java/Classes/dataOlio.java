@@ -37,63 +37,63 @@ public class dataOlio{
         this.creationDate = new Date();
     }
 
-    /** PÄIVÄÄ MUUTTAVA METODI */
+    /** Päivää muuttava metodi */
     public void changeDay(int d){
         this.day = d;
     }
 
-    /** PÄIVÄN LIIKUNTA AIKA */
+    /** Päivän liikunta aika */
     public void insertSport(int time){
         this.sportTime = time;
     }
 
-    /** PÄIVÄN RUUTU AIKA */
+    /** Päivän ruutu aika */
     public void insertScreen(int time){
         this.screenTime = time;
     }
 
-    /** PÄIVÄN PAINO */
+    /** Päivän paino */
     public void insertWeight(double inWeight){
         this.weight = inWeight;
     }
 
-    /** MUUTA BOOLEANIA */
+    /** Painon booleanin vaihto */
     public void insertWeightBoolean(boolean t){
         this.dayWeight = t;
     }
 
-    /** PALAUTTAA DATAPAKETIN VUODEN */
+    /** Palauttaa datapaketin vuoden */
     public String getYear(){return this.year;}
 
-    /** PALAUTTAA DATAPAKETIN KUUKAUDEN */
+    /** Palauttaa olion kuukauden */
     public String getMonth(){return this.month;}
 
-    /** PALAUTTAA URHEILUAJAN SEKUNTEISSA */
+    /** Palauttaa urheiluajan sekunteissa */
     public int sportSec(){
         return this.sportTime;
     }
 
-    /** PALAUTTAA RUUTUAJAN SEKUNTEISSA */
+    /** Palauttaa ruutuajan sekunteissa */
     public int screenSec(){
         return this.screenTime;
     }
 
-    /** BOOLEAN ONKO PÄIVÄLLE SYÖTETTY ERIKSEEN PAINOA */
+    /** Boolean onko päivälle syötetty painoa */
     public boolean hasWeight(){
         return this.dayWeight;
     }
 
-    /** PALAUTTAA PAINON DOUBLE ARVONA */
+    /** Palauttaa painon boolean arvon */
     public double returnWeight(){
         return this.weight;
     }
 
-    /** PALAUTTAA OLION LUOMIS PÄIVÄMÄÄRÄN JOKA TOIMII MYÖS OLION AVAIMENA */
+    /** Palauttaa olion luomis päivämäärän */
     public String getPackageName(){
         return this.key;
     }
 
-    /** PALAUTTAA PÄIVÄN NUMERO */
+    /** Palauttaa päivän numeron */
     public int getDay(){
         return this.day;
     }

@@ -25,6 +25,10 @@ public class HistoryManager {
     }
 
     public ArrayList<dataOlio> getDayData(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
+        /**
+         * Metodilla haetaan sille parametreinä syötetyltä aikaväliltä kaikki tallenteet, jotka palautetaan ArrayList<dataOlio> muodossa.
+         * Jos arvot syötetään väärin päin, eli lopetus päivämäärä on ennen aloitus päivämäärä, osaa metodi kääntää arvot.
+         */
         this.sYear = startYear;
         this.sMonth = startMonth;
         this.sDay = startDay;

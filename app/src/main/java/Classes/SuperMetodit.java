@@ -7,6 +7,13 @@ public class SuperMetodit {
     private static final String LOGTAG = "SuperMetodit.java";
 
     public String customDigit(String x, int dig){
+        /**
+         * Metodi ottaa parametreinä String-merkkijonon ja int-kokonaisluvun, joka kertoo kuinka pitkä merkkijonon
+         * halutaan olevan. Tällä metodilla muutetaan kuukausi datapaketin tallenteen mukaiseksi. Esimerkki:
+         * kutsutaan metodia customDigit("5",2); Koska "dig = 2" halutaan siis muuttaa String x 2-digiseksi
+         * merkkijonoksi. Koska "x = 5", eli 1-diginen, muutetaan metodilla siitä "05". Metodi siis tällöin palauttaa
+         * "05"-merkkijonon.
+         */
         Log.d(LOGTAG,"customDigit()");
         if(dig > 0){
             if(x.length()<dig){
@@ -26,6 +33,10 @@ public class SuperMetodit {
     }
 
     public String createPackageName(String v, String m){
+        /**
+         * Ottaa parametreinä vuoden ja kuukauden joiden avulla metodi luo paketin nimen, joka on muodoa
+         * "DataY2020M12".
+         */
         Log.d(LOGTAG,"createPackageName()");
         v = customDigit(v,4);
         m = customDigit(m,2);
@@ -33,6 +44,11 @@ public class SuperMetodit {
     }
 
     public String convertSeconds(int sec){
+        /**
+         * Metodi ottaa parametrinä sekunti määrän ja muuttaa sen string-merkkijono muotoon, jossa
+         * sekunnit on tarvittaessa jaettu tunneiksi ja minuuteiksi. Esimerkki palautuksia ovat:
+         * "1h 25min 1s", "5min 51s", "12s"
+         */
         Log.d(LOGTAG,"convertSeconds()");
         int h = 0;
         int m = 0;

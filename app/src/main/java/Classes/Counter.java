@@ -6,6 +6,9 @@ import java.util.TimerTask;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class Counter {
+    /**
+     * Laskurien toiminnallisuudesta vastaava luokka
+     */
     private int seconds;
     private Timer timer;
     private CustomGauge tv;
@@ -15,6 +18,10 @@ public class Counter {
     private int timeGoal;
 
     public Counter(int seconds,CustomGauge CG, int timeGoal) {
+        /**
+         * Constructor ottaa vastaan sekuntien määrän, josta mittari alkaa, CustomGauge kirjaston mittarin jota
+         * tämä tietty "Counter" manipuloi sekä käyttäjän oman aikatavoitteen esim. urheilutavoitteen sekunteina.
+         */
         this.seconds = seconds;
         this.timer = new Timer();
         this.tv = CG;
@@ -40,6 +47,11 @@ public class Counter {
     }
 
     public void run() {
+        /**
+         * Metodi laittaa mittarin käyntiin. Mittari toimii "Timer" luokan mittarin metodilla
+         * "scheduleAtFixedRate()", joka halutun aika välein suorittaa sen sisäisen koodin. Tässä
+         * tapauksessa sekunnin välein.
+         */
         isRunning = true;
         firstRun = true;
         timer = new Timer();
@@ -61,6 +73,9 @@ public class Counter {
     }
 
     public void stop() {
+        /**
+         * Pysäyttää mittarin
+         */
         this.timer.cancel();
         isRunning = false;
 
