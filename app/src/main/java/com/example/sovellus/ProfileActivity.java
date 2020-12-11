@@ -29,8 +29,7 @@ import Classes.User;
 import Classes.UserProfileEditor;
 
 /**
- * @author Jukka Hallikainen
- * @author Arttu Pösö
+ * @author Jukka Hallikainen ja Arttu Pösö
  */
 public class ProfileActivity extends AppCompatActivity {
 

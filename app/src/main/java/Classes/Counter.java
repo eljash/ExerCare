@@ -6,11 +6,7 @@ import java.util.TimerTask;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 /**
- * @author Arttu Pösö
- * @author Jukka Hallikainen
- */
-/**
- * Laskurien toiminnallisuudesta vastaava luokka
+ * @author Arttu Pösö ja Jukka Hallikainen.
  */
 public class Counter {
 

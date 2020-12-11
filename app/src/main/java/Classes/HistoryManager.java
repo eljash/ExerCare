@@ -6,7 +6,7 @@ import android.util.Log;
 import java.util.ArrayList;
 
 /**
- * @author Eljas Hirvelä
+ * @author Eljas Hirvelä ja Arttu Pösö
  */
 public class HistoryManager {
 

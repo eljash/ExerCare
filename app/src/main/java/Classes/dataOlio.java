@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  *
  *
- * @author Eljas Hirvelä;
+ * @author Eljas Hirvelä, Jukka Hallikainen ja Arttu Pösö
  */
 public class dataOlio{
 

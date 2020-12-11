@@ -19,10 +19,10 @@ import java.util.ArrayList;
 import Classes.SuperMetodit;
 import Classes.dataOlio;
 
+/**
+ * @author Jukka Hallikainen
+ */
 public class InformativeHistoryActivity extends AppCompatActivity {
-    /**
-     * @author Jukka Hallikainen
-     */
 
     private ArrayList<dataOlio> historyList;
     private SuperMetodit SM;

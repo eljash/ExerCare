@@ -10,14 +10,12 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-
+/**
+ *
+ * @author Eljas Hirvelä
+ *
+ */
 public class Mega {
-
-    /**
-     *
-     * @author Eljas Hirvelä
-     *
-     */
 
     private Context activityContext;
 

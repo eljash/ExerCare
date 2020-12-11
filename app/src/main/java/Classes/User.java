@@ -3,7 +3,7 @@ package Classes;
 import java.util.Date;
 
 /**
- * @author Eljas Hirvelä
+ * @author Eljas Hirvelä ja Jukka Hallikainen
  */
 public class User {
 

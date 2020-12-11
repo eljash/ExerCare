@@ -1,11 +1,10 @@
 package Classes;
 
 import android.util.Log;
-
+/**
+ * @author Eljas Hirvelä
+ */
 public class SuperMetodit {
-    /**
-     * @author Eljas Hirvelä
-     */
 
     private static final String LOGTAG = "SuperMetodit.java";
 

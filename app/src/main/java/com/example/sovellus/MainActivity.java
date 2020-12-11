@@ -31,13 +31,10 @@ import Classes.User;
 import Classes.UserProfileEditor;
 import Classes.dataOlio;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
-
+/**
+ * @author Jukka Hallikainen, Arttu Pösö ja Eljas Hirvelä
+ */
 public class MainActivity extends AppCompatActivity {
-    /**
-     * @author Jukka Hallikainen
-     * @author Arttu Pösö
-     * @author Eljas Hirvelä
-     */
 
     private Mega mega;
     private SuperMetodit SM;
