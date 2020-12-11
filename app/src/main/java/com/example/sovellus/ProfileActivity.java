@@ -56,9 +56,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private EditText input;
     private Button changeNameButton;
-    private Button changeBirthButton;
-
-    private DatePickerDialog.OnDateSetListener newBirthDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +86,6 @@ public class ProfileActivity extends AppCompatActivity {
         });
 
         changeNameButton = findViewById(R.id.changeProfileNameButton);
-        changeBirthButton = findViewById(R.id.changeBirthDateButton);
 
         createChangeButtons();
 
@@ -207,40 +203,6 @@ public class ProfileActivity extends AppCompatActivity {
                 changeName.show();
             }
         });
-
-        //Lisätään syntymäpäivän vaihtoon toiminnallisuus joka avaa
-        //kalenteri ponnahdusikkunan
-        changeBirthButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                int year = calendar.get(Calendar.YEAR);
-                int month = calendar.get(Calendar.MONTH);
-                int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-                DatePickerDialog dialog = new DatePickerDialog(
-                        getApplicationContext(),
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        newBirthDay,
-                        year, month, day);
-                dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                dialog.show();
-            }
-        });
-
-        //Luetaan kalenteri ikkunaan syötetyt arvot profiiliin
-        newBirthDay = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month++; // Koska tammikuu = 0
-
-                userProfile.setYear(year);
-                userProfile.setMonth(month);
-                userProfile.setDay(day);
-                profile.saveProfile(userProfile);
-                ProfileActivity.this.updateTextValues();
-            }
-        };
 
     }
 
