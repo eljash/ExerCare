@@ -2,7 +2,11 @@ package Classes;
 
 import java.util.Date;
 
+/**
+ * @author Eljas Hirvelä
+ */
 public class User {
+
     private String name;
     private double startWeight;
     private double weightGoal;
@@ -21,6 +25,9 @@ public class User {
         this.creationDate = new Date();
     }
 
+    /**
+     * Konstruktori ottaa tarvittavat parametrit vastaan luodakseen uuden profiilin käyttäjän tiedoilla.
+     */
     public User(String n, double sW, double wG, int sportTG, int screenTG, int y, int m, int d, Date cD){
         this.name = n;
         this.startWeight = sW;

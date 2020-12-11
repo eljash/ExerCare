@@ -27,6 +27,9 @@ import java.util.Calendar;
 import Classes.HistoryManager;
 import Classes.dataOlio;
 
+/**
+ * @author Eljas Hirvelä ja Arttu Pösö
+ */
 public class HistoryActivity extends AppCompatActivity {
 
     private HistoryManager HM;
@@ -81,6 +84,9 @@ public class HistoryActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodilla luodaan Radio-painikkeiden toiminnot.
+     */
     public void radioButtonClick(View v){
         //Onko painettu radio nappi päällä
         boolean checked = ((RadioButton) v).isChecked();
@@ -102,6 +108,10 @@ public class HistoryActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodilla siirrytään informatiivisempaan historia näkymään, jossa näkyy halutun aikavälin
+     * kaikki datat erikseen.
+     */
     public void goInformative(View v){
         Intent intent = new Intent(getApplicationContext(),InformativeHistoryActivity.class);
         Gson gson = new Gson();
@@ -111,18 +121,27 @@ public class HistoryActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
+    /**
+     * Metodilla siirrytään koti aktiviteettiin.
+     */
     public void goMain(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodilla siirrytään profiili aktiviteettiin.
+     */
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
+    /**
+     * Asettaa aktiviteetin päivämäärien asettelu view-elementtien toiminnot.
+     */
     private void setDateListener(){
         startDate = findViewById(R.id.startDate);
         endDate = findViewById(R.id.endDate);
@@ -180,6 +199,9 @@ public class HistoryActivity extends AppCompatActivity {
         };
     }
 
+    /**
+     * Metodi kutsuu HistoryManager.java luokan "getDayData" metodia, jolla saadaan halutun aikavälin kaikki tallennetut päivät olioina.
+     */
     private void getData(){
         list = HM.getDayData(startY, startM, startD, endY, endM, endD);
         if (list!=null){

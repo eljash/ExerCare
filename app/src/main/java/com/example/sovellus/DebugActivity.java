@@ -12,6 +12,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import Classes.Mega;
 
+/**
+ * @author Eljas Hirvelä
+ */
 public class DebugActivity extends AppCompatActivity {
 
     Mega mega = new Mega(this);
@@ -47,24 +50,36 @@ public class DebugActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodi jolla siirrytään profiili aktiviteettiin.
+     */
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
+    /**
+     * Metodi jolla siirrytään historia aktiviteettiin.
+     */
     public void goHistory(View v){
         Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodi jolla siirrytään koti aktiviteettiin.
+     */
     public void goMain(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodilla luodaan ohjelman testausta varten dataa eri kuukauksille.
+     */
     public void createFakeData(View v){
         mega.insertData("2020","01",1,7600,9900,90,true);
         mega.insertData("2020","01",3,7250,22000,89,true);
@@ -81,6 +96,9 @@ public class DebugActivity extends AppCompatActivity {
         mega.insertData("2020","04",10,5200,8000,80,true);
     }
 
+    /**
+     * Metodi kutsuu Mega.java luokan "clearSave" metodia, jolla tyhjennetään SharedPreferences.
+     */
     public void clearSave(View v){
         mega.clearData();
     }

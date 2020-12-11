@@ -20,7 +20,11 @@ import java.util.Date;
 import Classes.User;
 import Classes.UserProfileEditor;
 
+/**
+ * @author Jukka Hallikainen
+ */
 public class NewUserActivity extends AppCompatActivity {
+
     User user;
     private int d;
     private int m;
@@ -171,6 +175,9 @@ public class NewUserActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Luetaan aktiviteetin tekstikenttien arvot, jotta ne voidaan tallentaa profiiliin.
+     */
     public void submitNewUserInfo(View v) {
 
         EditText nameET = findViewById(R.id.new_user_name);

@@ -1,15 +1,12 @@
-/**
-*
-* VAIHDA ".sovellus" ohjelman nimeksi
-*
-* Data muoto: avain, urheilu, ruutuaika, paino, onko syötetty painoa?
-*
-*/
-
 package Classes;
 
 import java.util.Date;
 
+/**
+ *
+ *
+ * @author Eljas Hirvelä;
+ */
 public class dataOlio{
 
     private final static String LOGTAG = "dataOlio.java";
@@ -24,8 +21,13 @@ public class dataOlio{
 
     private static Date creationDate;
 
-    /** LUOKAN KONSTRUKTORI */
+    /** Luokan konstruktori. */
+    /**
+     * Oliota luodessa otetaan "keyName", joka on sama kuin datapaketin nimi missä oliota säilytetään, sekä
+     *  datapaketin päivämääriä vastaavan vuoden ja kuukauden.
+     */
     public dataOlio(String keyName,String y, String m){
+
         this.key = keyName;
         this.year = y;
         this.month = m;

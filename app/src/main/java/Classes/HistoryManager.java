@@ -5,7 +5,11 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+/**
+ * @author Eljas Hirvelä
+ */
 public class HistoryManager {
+
     private int sYear, sMonth, sDay;
     private int eYear, eMonth, eDay;
 
@@ -18,17 +22,23 @@ public class HistoryManager {
 
     Context context;
 
+    /**
+     * Luokan konstruktori ottaa aktiviteetilta kontekstin Context, jotta
+     * SharedPreference ja sen toiminnot toimisivat.
+     */
     public HistoryManager(Context c){
+
         this.context = c;
         mega = new Mega(c);
         SM = new SuperMetodit();
     }
 
+    /**
+     * Metodilla haetaan sille parametreinä syötetyltä aikaväliltä kaikki tallenteet, jotka palautetaan ArrayList<dataOlio> muodossa.
+     * Jos arvot syötetään väärin päin, eli lopetus päivämäärä on ennen aloitus päivämäärä, osaa metodi kääntää arvot.
+     */
     public ArrayList<dataOlio> getDayData(int startYear, int startMonth, int startDay, int endYear, int endMonth, int endDay){
-        /**
-         * Metodilla haetaan sille parametreinä syötetyltä aikaväliltä kaikki tallenteet, jotka palautetaan ArrayList<dataOlio> muodossa.
-         * Jos arvot syötetään väärin päin, eli lopetus päivämäärä on ennen aloitus päivämäärä, osaa metodi kääntää arvot.
-         */
+
         this.sYear = startYear;
         this.sMonth = startMonth;
         this.sDay = startDay;
@@ -46,8 +56,10 @@ public class HistoryManager {
         return calculateDays();
     }
 
+    /**
+     * Metodi kääntää aloitus ja lopetus vuoden päin vastoin, jos aloitus vuosi on lopetus vuoden jälkeen.
+     */
     private void reverse(){
-
         //FUNKTIO KÄÄNTÄÄ ALOITUS-LOPETUS PÄIVÄMÄÄRÄT PÄITTÄÄN
 
         int tmp;
@@ -65,8 +77,10 @@ public class HistoryManager {
         this.eDay = tmp;
     }
 
+    /**
+     * Metodilla haetaan halutulta aika väliltä päivät ja asetetaan ne olio listaan joka palautetaan.
+     */
     private ArrayList<dataOlio> calculateDays(){
-
         daysCombined = 0;
 
         int maxDays = 1000;

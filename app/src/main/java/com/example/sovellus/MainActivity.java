@@ -33,6 +33,12 @@ import Classes.dataOlio;
 import pl.pawelkleczkowski.customgauge.CustomGauge;
 
 public class MainActivity extends AppCompatActivity {
+    /**
+     * @author Jukka Hallikainen
+     * @author Arttu Pösö
+     * @author Eljas Hirvelä
+     */
+
     private Mega mega;
     private SuperMetodit SM;
 
@@ -116,6 +122,9 @@ public class MainActivity extends AppCompatActivity {
         correctCounterStates();
     }
 
+    /**
+     * Metodilla asetetaan aktiviteetin mittareihin maksimi arvot, jotka vastaavat käyttäjän asettamia tavotteita ruutu- ja urheilu-ajalle
+     */
     public void setGaugeEndValue() {
         CustomGauge sportGauge = findViewById(R.id.sportTV);
         CustomGauge screenGauge = findViewById(R.id.screenTV);
@@ -148,12 +157,18 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Metodilla siirrytään debug aktiviteettiin.
+     */
     public void goDebug(View v){
         Intent intent = new Intent(this, DebugActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
+    /**
+     * Metodilla siirrytään profiili aktiviteettiin.
+     */
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         intent.putExtra("urheilu", eCounter.getCurrent());
@@ -165,6 +180,9 @@ public class MainActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
+    /**
+     * Metodilla siirrytään historia aktiviteettiin.
+     */
     public void goHistory(View v){
         Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
@@ -191,7 +209,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /** METODI VARMISTAA, ETTÄ SWITCHIN BOOLEAN ON SAMA KUIN AJASTIMEN PYÖRIMIS BOOLEAN */
+    /**
+     * Metodi varmistaa, että switchin boolean on sama kuin ajastimen pyörimisen boolean. Eli jos switch on päällä, kuuluisi
+     * mittarin/laskurin olla päällä.
+     */
     private void correctCounterStates(){
         if(sportSwitch.isChecked()!=eCounter.isRunning() || screenSwitch.isChecked() != sCounter.isRunning()){
 
@@ -223,6 +244,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /** KATSOO MILLAINEN TILA TALLENNETTIIN VIIMEKSI AKTIVITEETISTA POISTUESSA */
+    /**
+     * Metodi katsoo millainen tila tallennettiin viimeksi aktiviteetista poistuessa.
+     * Eli jos jompi kumpi switcheistä oli päällä viimeksi poistuessa, laitetaan se päälle sekä lasketaan
+     * kulunut aika viime avaamisesta, jotta saadaan se lisättyä mittariin sekä päivän dataan.
+     */
     public void checkLastExit(){
         Log.d(LOGTAG,"checkLastExit()");
         Date timeNow = new Date();
@@ -296,7 +322,8 @@ public class MainActivity extends AppCompatActivity {
         predit.apply();
     }
 
-    /** TALLENTAA AKTIVITEETIN TILAN ENNEN SEN SULKEUTUMISTA */
+    /** Tallennetaan aktiviteetin tila poistuessa, jotta sovellus muistaa mikä switchi on jätetty päälle ja ajan milloin
+     * aktiviteetista poistuttiin. Tämän avulla saadaan laskettua kulunut aika vaikkei aktiviteetti ole auki. */
     public void saveExitState(){
         Log.d(LOGTAG,"saveExitState()");
 

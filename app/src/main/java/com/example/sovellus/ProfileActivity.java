@@ -28,6 +28,10 @@ import Classes.SuperMetodit;
 import Classes.User;
 import Classes.UserProfileEditor;
 
+/**
+ * @author Jukka Hallikainen
+ * @author Arttu Pösö
+ */
 public class ProfileActivity extends AppCompatActivity {
 
     private UserProfileEditor profile;
@@ -103,18 +107,27 @@ public class ProfileActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodilla siirrytään asetukset aktiviteettiin.
+     */
     public void goSettings(View v){
         Intent intent = new Intent(getApplicationContext(),SettingsActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left);//siirrytään oikealle ->
     }
 
+    /**
+     * Metodilla siirrytään historia aktiviteettiin.
+     */
     public void goHistory(View v){
         Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodilla siirrytään koti aktiviteettiin.
+     */
     public void goMain(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

@@ -11,6 +11,9 @@ import android.view.View;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class SettingsActivity extends AppCompatActivity {
+    /**
+     * @author Eljas Hirvelä
+     */
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

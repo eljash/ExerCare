@@ -1,19 +1,3 @@
-/**
-* Olio -> Json, Json -> Olio
-*
-* Key: päivämäärä pv.kk.vv
-*
-* Kaksi eri Json tiedostoa, data ja sitten käyttäjän tiedot
-*
-* Data muoto: avain, urheilu, ruutuaika, paino, onko syötetty painoa?
-*
-* Käyttäjän tiedot: käyttäjänimi, ikä, datailia?, tavoite ruutuaika, tavoite paino
-*
-* VAIHDA ".sovellus" ohjelman nimeksi
-*
-* Ohjelmointi "Lecture05" JSON... Lataa .jar tiedosto ja importoi
-*
-*/
 package Classes;
 import android.app.Activity;
 import android.content.Context;
@@ -28,6 +12,12 @@ import com.google.gson.reflect.TypeToken;
 
 
 public class Mega {
+
+    /**
+     *
+     * @author Eljas Hirvelä
+     *
+     */
 
     private Context activityContext;
 
@@ -44,11 +34,11 @@ public class Mega {
 
     private static final String LOGTAG = "MEGA.JAVA";
 
-    /** LUOKKA TARVII MainActivity:STÄ TAI MUUSTA
-     * AKTIVITEETISTÄ Context - KONTEKSTIN JOTTA
-     * SharedPreferences:in getSharedPreferences
-     * TOIMISI */
     public Mega(Context context){
+        /**
+         * Luokan konstruktori ottaa parametrinä aktiviteetin Context konstekstin, jotta se voi käyttää
+         * SharedPreferencesiä ja sen ominaisuuksia.
+         */
         this.activityContext = context;
         Log.d(LOGTAG, "Constructing");
     }
@@ -90,7 +80,7 @@ public class Mega {
         }
     }
 
-    /** PALAUTTAA TÄMÄN PÄIVÄN dataOlio OLION */
+    /** Palauttaa nykyisen päivän dataolion, joka sisältää tämän päivän tiedot*/
     public dataOlio todayObject(){
         if(today == null){
             todayData();
@@ -100,7 +90,7 @@ public class Mega {
         return today;
     }
 
-    /** DATA PAKETIN TALLENNUS METODI */
+    /** Datapaketin tallennus metodi. Metodi tallentaa aukinaisen paketin SharedPreferencesiin. */
     public void saveDataPackage(){
         Log.d(LOGTAG,"saveDataPackage()");
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
@@ -113,7 +103,7 @@ public class Mega {
         dataEditor.apply();
     }
 
-    /** TALLENTAA NYKYISEN PÄIVÄN */
+    /** Tallentaa nykyisen päivän. */
     public void saveToday(){
         Log.d(LOGTAG,"saveToday()");
         SharedPreferences dataSaving = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
@@ -126,7 +116,8 @@ public class Mega {
         dataEditor.apply();
     }
 
-    /** TALLENNA TIETTY LISTA TIETTYYN DATA PAKETTIIN */
+    /** Tallentaa tietyn oliolistan tiettyyn datapakettiin. Oliolista otetaan "ArrayList<dataOlio>" muodossa ja
+     * datapaketin nimi luodaan parametreinä saaduista vuodesta ja kuukaudesta. */
     private void savePackage(String v, String m, ArrayList<dataOlio> dataList){
         Log.d(LOGTAG,"savePackage()");
         v = SM.customDigit(v,4);
@@ -142,13 +133,10 @@ public class Mega {
         dataEditor.apply();
     }
 
-    /** VERTAA ONKO PAKETTI SAMAN NIMINEN KUIN "String date"
-     *  String date:n TULISI OLLA MUOTO "DataY2020M12"
+    /**
+     * Metodi ottaa parametreinä vuoden ja kuukauden merkkijonoina ja etsii
+     * näiden perusteella oikean datapaketin, jonka metodi sitten palauttaa.
      */
-    public boolean packageDateEquals(String date){
-        return currentSavePackage.equals(date);
-    }
-
     public ArrayList<dataOlio> loadData(String year, String month){
         Log.d(LOGTAG,"loadData() with parameters");
         //Log.d(LOGTAG,"Parameters: y:"+year+" m: "+month);
@@ -194,7 +182,7 @@ public class Mega {
         return null;
     }
 
-    /** KATSOO ONKO PÄIVÄMÄÄRÄLLE JO OMA DATA PAKETTI true = on, false = ei*/
+    /** Katsoo onko vuotta ja kuukautta vastaavaa datapakettia olemassa: true = on, false = ei*/
     private boolean checkForDataPackage(String v, String m){
         String saveName = SM.createPackageName(v,m);
         Log.d(LOGTAG,"checkForDataPackage() - "+saveName);
@@ -209,7 +197,7 @@ public class Mega {
         return false;
     }
 
-    /** ETSII LISTASTA HALUTUN PÄIVÄN */
+    /** Etsii halutun päivän listasta. Metodi ottaa parametreinä olilistan "ArrayList<dataOlio>" ja kokonaislukuna päivän */
     public dataOlio dayFromList(int d,ArrayList<dataOlio> objectList){
         Log.d(LOGTAG,"dayFromList()");
         //Log.d(LOGTAG, "Searching object with day: "+d);
@@ -233,30 +221,7 @@ public class Mega {
         return null;
     }
 
-    private int listIndex(int d,ArrayList<dataOlio> objectList){
-        Log.d(LOGTAG,"dayFromList()");
-        //Log.d(LOGTAG, "Searching object with day: "+d);
-        if(objectList != null){
-            int size = objectList.size();
-            //Log.d(LOGTAG,"object list size: "+size);
-            if (size > 0) {
-                for (int i = size - 1; i >= 0; i--) {
-                    if (objectList.get(i).getDay() == d) {
-                        //Log.d(LOGTAG,"Object found with day: "+d+"[OK]");
-                        return i;
-                    }
-                }
-            }
-        } else {
-            //Log.d(LOGTAG,"object list empty: value = null [FAILED]");
-            return 0;
-        }
-
-        //Log.d(LOGTAG,"Object with day: "+d+" not found... Returning null [FAILED]");
-        return 0;
-    }
-
-    /** LUO UUDEN TIEDOSTO PAKETIN */
+    /** Luo uuden datapaketin. Parametreinä vuosi ja kuukausi, jotta voidaan luoda oikeanlainen nimi paketille. */
     private void createDataPackage(String v, String m){
         Log.d(LOGTAG,"createDataPackage()");
         if(!checkForDataPackage(v,m)){
@@ -277,7 +242,7 @@ public class Mega {
         }
     }
 
-    /** AUKI OLEVAN LISTAN TYHJETÄJÄ */
+    /** Metodi tyhjentää koko SharedPreference tiedot. */
     public void clearData(){
         SharedPreferences SPref = activityContext.getSharedPreferences("saveData", Activity.MODE_PRIVATE);
         SharedPreferences.Editor SprefEdit = SPref.edit();
@@ -289,7 +254,8 @@ public class Mega {
         SprefEdit.apply();
     }
 
-    /** ENEMMÄN DEBUGGAAMISTA VARTEN TEHTY METODI JOLLA LISÄTÄ OLIOTA */
+    /** Debuggaamista varten tehty metodi joka ottaa parametreinä päivämäärän ja kaikki arvot mitä halutaan sille päivälle
+     *  lisätä. Tällä metodilla luodaan testaamista varten dataa useille päiville */
     public void insertData(String v, String m, int d, int sport, int screen, double weight, boolean day){
         Log.d(LOGTAG,"insertData()");
         ArrayList<dataOlio> dataList;

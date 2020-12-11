@@ -20,6 +20,9 @@ import Classes.SuperMetodit;
 import Classes.dataOlio;
 
 public class InformativeHistoryActivity extends AppCompatActivity {
+    /**
+     * @author Jukka Hallikainen
+     */
 
     private ArrayList<dataOlio> historyList;
     private SuperMetodit SM;
@@ -83,18 +86,27 @@ public class InformativeHistoryActivity extends AppCompatActivity {
         ));
     }
 
+    /**
+     * Metodilla siirrytään profiili aktiviteettiin.
+     */
     public void goProfile(View v){
         Intent intent = new Intent(this, ProfileActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään oikealle <-
     }
 
+    /**
+     * Metodilla siirrytään historia aktiviteettiin.
+     */
     public void goHistory(View v){
         Intent intent = new Intent(this, HistoryActivity.class);
         startActivity(intent);
         overridePendingTransition(R.anim.slide_in_left,R.anim.slide_out_right);//siirrytään vasemmalle <-
     }
 
+    /**
+     * Metodilla siirrytään koti aktiviteettiin.
+     */
     public void goMain(View v){
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);

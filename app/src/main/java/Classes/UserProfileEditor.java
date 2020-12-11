@@ -6,7 +6,11 @@ import android.content.SharedPreferences;
 
 import java.util.Date;
 
+/**
+ * @author Eljas Hirvelä
+ */
 public class UserProfileEditor {
+
     private int defaultSportGoal = 3600;
     private int defaultScreenGoal = 7200;
 
@@ -51,7 +55,7 @@ public class UserProfileEditor {
         editSaving.apply();
     }
 
-    /** KÄYTETTY NEWUSERACTIVITY-LUOKASSA UUDEN PROFIILIN TALLENTAMISEEN */
+    /** Käytetään NewUserActivity-luokssa uuden profiilin tallentamiseen */
 
     public void saveProfile(User user){
         SharedPreferences dataSaving = context.getSharedPreferences("profile", Activity.MODE_PRIVATE);
